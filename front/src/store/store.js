@@ -10,9 +10,9 @@ const initialState = {
 const storeContext = createContext(initialState);
 
 const StoreProvider = ({ children }) => {
-    const [store, storeDispatch] = useReducer(reducer, initialState);
+    const storeReducer = useReducer(reducer, initialState);
 
-    return <storeContext.Provider value={{ store, storeDispatch }}>{children}</storeContext.Provider>
+    return <storeContext.Provider value={ storeReducer }>{children}</storeContext.Provider>
 };
 
 const useStore = () => useContext(storeContext);

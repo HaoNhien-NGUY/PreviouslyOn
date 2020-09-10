@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar() {
     const classes = useStyles();
-    const { store, storeDispatch } = useStore();
+    const [store, storeDispatch] = useStore();
 
     return (
         <div className={classes.root}>
