@@ -30,10 +30,11 @@ export default function ButtonAppBar() {
                     <Typography variant="h6" className={`${classes.title} ${classes.textleft}`}>
                         PreviouslyOn
                     </Typography>
-                    { store.user ? 
-                        <Button color="inherit" onClick={() => storeDispatch({type: ACTIONS.LOGOUT})}>Logout</Button>
+                    {store.user
+                        ?
+                        <Button color="inherit" onClick={() => storeDispatch({ type: ACTIONS.LOGOUT })}>Logout</Button>
                         :
-                        <Button color="inherit" onClick={() => storeDispatch({type: ACTIONS.LOGIN, payload: { username: "Nordine", email: 'nordine@nordine.fr', access_token: "123" }})}>Login</Button>
+                        <Button color="inherit" onClick={() => storeDispatch({ type: ACTIONS.LOGIN, payload: { username: "Nordine", email: 'nordine@nordine.fr', access_token: "123" } })}>Login</Button>
                     }
                 </Toolbar>
             </AppBar>

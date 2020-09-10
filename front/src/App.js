@@ -1,8 +1,8 @@
 import React from 'react';
-import './App.css';
+import { StoreProvider } from './store/store';
+
 import Navbar from './components/navbar';
 
-import { StoreProvider } from './store/store';
 
 function App() {
   return (
