@@ -4,7 +4,7 @@ import { betaseriesAPI } from '../../services/betaseriesAPI';
 import { Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 
 export default function ButtonAppBar() {
-    const { store, storeDispatch } = useStore();
+    const [store, storeDispatch] = useStore();
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     // const [email, setEmail] = useState("");
@@ -66,7 +66,6 @@ export default function ButtonAppBar() {
                         onChange={(e) => { setEmail(e.target.value) }}
                     /> */}
                     <TextField
-                        autoFocus
                         margin="dense"
                         id="password"
                         label="Password"

@@ -2,18 +2,17 @@ import axios from 'axios';
 
 class BetaseriesAPI {
     API_URL = process.env.REACT_APP_BETASERIES_API_URL;
+    BETASERIES_KEY = process.env.REACT_APP_BETASERIES_KEY;
 
-    constructor(){
-        this.headers = {
-            headers : {
-                'x-access-token' : '123',
-                "Content-type": "application/json"
-            }
+    config = {
+        headers: {
+            'x-access-token': '123',
+            "Content-type": "application/json"
         }
     }
 
     login(user) {
-        return axios.post(this.API_URL + '/members/auth?login=' + user.username + '&password=' + user.password + '&key=' + process.env.REACT_APP_BETASERIES_KEY);
+        return axios.post(`${this.API_URL}/members/auth?login=${user.username}&password=${user.password}&key=${this.BETASERIES_KEY}`);
     }
 }
 
