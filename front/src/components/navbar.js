@@ -23,8 +23,6 @@ export default function ButtonAppBar() {
     const classes = useStyles();
     const { store, storeDispatch } = useStoreContext();
 
-    console.log(store);
-
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -32,11 +30,11 @@ export default function ButtonAppBar() {
                     <Typography variant="h6" className={`${classes.title} ${classes.textleft}`}>
                         PreviouslyOn
                     </Typography>
-                    { (() =>  {if(store.user) {
-                        return <Button color="inherit" onClick={() => storeDispatch({type: ACTIONS.LOGOUT})}>Logout</Button>
-                    } else {
-                        return <Button color="inherit" onClick={() => storeDispatch({type: ACTIONS.LOGIN, payload: { username: "Nordine", email: 'nordine@nordine.fr', access_token: "123" }})}>Login</Button>
-                    }})() }
+                    { store.user ? 
+                        <Button color="inherit" onClick={() => storeDispatch({type: ACTIONS.LOGOUT})}>Logout</Button>
+                        :
+                        <Button color="inherit" onClick={() => storeDispatch({type: ACTIONS.LOGIN, payload: { username: "Nordine", email: 'nordine@nordine.fr', access_token: "123" }})}>Login</Button>
+                    }
                 </Toolbar>
             </AppBar>
         </div>
