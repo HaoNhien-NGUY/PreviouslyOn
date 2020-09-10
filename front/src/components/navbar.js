@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography, Toolbar, AppBar } from '@material-ui/core';
-
 import { useStore, ACTIONS } from '../store/store';
+import { Button, Typography, Toolbar, AppBar } from '@material-ui/core';
+import ModalLogin from './modal/modalLogin';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,6 +23,7 @@ export default function ButtonAppBar() {
     const classes = useStyles();
     const { store, storeDispatch } = useStore();
 
+    console.log(store);
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -34,7 +35,8 @@ export default function ButtonAppBar() {
                         ?
                         <Button color="inherit" onClick={() => storeDispatch({ type: ACTIONS.LOGOUT })}>Logout</Button>
                         :
-                        <Button color="inherit" onClick={() => storeDispatch({ type: ACTIONS.LOGIN, payload: { username: "Nordine", email: 'nordine@nordine.fr', access_token: "123" } })}>Login</Button>
+                        // <Button color="inherit" onClick={() => storeDispatch({ type: ACTIONS.LOGIN, payload: { username: "Nordine", email: 'nordine@nordine.fr', access_token: "123" } })}>Login</Button>
+                        <ModalLogin />
                     }
                 </Toolbar>
             </AppBar>
