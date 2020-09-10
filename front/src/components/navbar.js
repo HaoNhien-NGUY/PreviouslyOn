@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography, Toolbar , AppBar} from '@material-ui/core';
+import { Button, Typography, Toolbar, AppBar } from '@material-ui/core';
+
+import { useStoreContext, ACTIONS } from '../store/store';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar() {
     const classes = useStyles();
+    const { store, storeDispatch } = useStoreContext();
+
+    console.log(store);
 
     return (
         <div className={classes.root}>
@@ -27,8 +32,11 @@ export default function ButtonAppBar() {
                     <Typography variant="h6" className={`${classes.title} ${classes.textleft}`}>
                         PreviouslyOn
                     </Typography>
-                    <Button color="inherit">Login</Button>
-                    <Button color="inherit">Logout</Button>
+                    { (() =>  {if(store.user) {
+                        return <Button color="inherit" onClick={() => storeDispatch({type: ACTIONS.LOGOUT})}>Logout</Button>
+                    } else {
+                        return <Button color="inherit" onClick={() => storeDispatch({type: ACTIONS.LOGIN, payload: { username: "Nordine", email: 'nordine@nordine.fr', access_token: "123" }})}>Login</Button>
+                    }})() }
                 </Toolbar>
             </AppBar>
         </div>
