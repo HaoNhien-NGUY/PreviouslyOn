@@ -15,6 +15,6 @@ const StoreProvider = ({ children }) => {
     return <storeContext.Provider value={{ store, storeDispatch }}>{children}</storeContext.Provider>
 };
 
-const useStoreContext = () => useContext(storeContext);
+const useStore = () => useContext(storeContext);
 
-export { StoreProvider, useStoreContext, ACTIONS }
+export { StoreProvider, useStore, ACTIONS }

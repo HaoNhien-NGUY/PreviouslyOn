@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Typography, Toolbar, AppBar } from '@material-ui/core';
 
-import { useStoreContext, ACTIONS } from '../store/store';
+import { useStore, ACTIONS } from '../store/store';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar() {
     const classes = useStyles();
-    const { store, storeDispatch } = useStoreContext();
+    const { store, storeDispatch } = useStore();
 
     return (
         <div className={classes.root}>
