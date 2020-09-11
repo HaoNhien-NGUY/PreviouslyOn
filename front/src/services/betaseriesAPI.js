@@ -3,7 +3,7 @@ import { network } from './network';
 const API_URL = process.env.REACT_APP_BETASERIES_API_URL;
 const BETASERIES_KEY = process.env.REACT_APP_BETASERIES_KEY;
 
-const config = {
+let config = {
     headers: {
         'X-BetaSeries-Key': BETASERIES_KEY,
     }
