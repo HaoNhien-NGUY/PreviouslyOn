@@ -3,7 +3,7 @@ import { network } from './network';
 const API_URL = process.env.REACT_APP_BETASERIES_API_URL;
 const BETASERIES_KEY = process.env.REACT_APP_BETASERIES_KEY;
 
-let config = {
+const config = {
     headers: {
         'X-BetaSeries-Key': BETASERIES_KEY,
     }
@@ -20,6 +20,11 @@ class BetaseriesAPI {
     
     getAllMovies() {
         return network.get(`${API_URL}/movies/list`, config);
+    }
+
+    blockFriend(id, token) {
+        config.headers.Authorization = `Bearer ${token}`;
+        return network.post(`${API_URL}/friends/block`, { id }, config);
     }
 }
 
