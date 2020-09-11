@@ -1,34 +1,17 @@
+import { network } from './network';
+
 class AuthService {
-  login(login, password) {
-    return axios
-      .post(API_URL + "login", {
-        login,
-        password
-      })
-      .then(response => {
-        if (response.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
-        return response.data;
-      });
-  }
+    logout() {
+        localStorage.removeItem("user");
+    }
 
-  logout() {
-    localStorage.removeItem("user");
-  }
-
-  register(login, email, password, confirmpw) {
-    return axios.post(API_URL + "register", {
-      login,
-      email,
-      password,
-      confirmpw
-    });
-  }
-
-  getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));;
-  }
+    getCurrentUser() {
+        return JSON.parse(localStorage.getItem('user'));;
+    }
 }
 
-export default new AuthService();
+
+const authService = new AuthService();
+Object.freeze(authService);
+
+export { authService };
