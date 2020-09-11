@@ -5,7 +5,7 @@ export default function Movies() {
     const [allMovies, setAllMovies] = useState(null);
 
     const showMovies = async () => {
-        const res = await betaseriesAPI.movies();
+        const res = await betaseriesAPI.getAllMovies();
 
         if (res.status === 200) {
             setAllMovies(res.data.movies);
