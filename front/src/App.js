@@ -2,8 +2,8 @@ import React from 'react';
 import { useStore } from './store/store';
 
 import Navbar from './components/navbar';
-import Movies from './components/cinema/movies/movies';
-import Shows from './components/cinema/shows/shows';
+import Movies from './components/cinema/movies/getAllMovies';
+import Shows from './components/cinema/shows/getAllShows';
 
 
 function App() {

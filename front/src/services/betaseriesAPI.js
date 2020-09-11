@@ -14,11 +14,11 @@ class BetaseriesAPI {
         return network.post(`${API_URL}/members/auth?login=${user.login}&password=${user.password}`, {}, config);
     }
 
-    shows() {
-        return network.get(`${API_URL}/shows/list`, config);
+    getAllShows(params) {
+        return network.get(`${API_URL}/shows/list?limit=${params.limit}&start=${params.start}`, config);
     }
     
-    movies() {
+    getAllMovies() {
         return network.get(`${API_URL}/movies/list`, config);
     }
 }
