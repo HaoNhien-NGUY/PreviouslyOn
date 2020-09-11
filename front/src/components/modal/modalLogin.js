@@ -9,7 +9,7 @@ export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
         if (name && password) {
             const user = {
@@ -17,15 +17,15 @@ export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
                 password: md5(password)
             }
 
-            betaseriesAPI.login(user)
-                .then((res) => {
-                    console.log(res);
-                    handleClose();
-                    storeDispatch({ type: ACTIONS.LOGIN, payload: { login: res.data.user.login, access_token: res.data.token } });   
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            const res = await betaseriesAPI.login(user);
+
+            if (res.status === 200) {
+                console.log(res);
+                handleClose();
+                storeDispatch({ type: ACTIONS.LOGIN, payload: { login: res.data.user.login, access_token: res.data.token } });
+            } else {
+                console.log(res.data);
+            }
         }
     }
 

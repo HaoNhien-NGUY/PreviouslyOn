@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { network } from './network';
 
 class BetaseriesAPI {
     API_URL = process.env.REACT_APP_BETASERIES_API_URL;
@@ -11,7 +11,7 @@ class BetaseriesAPI {
     }
 
     login(user) {
-        return axios.post(`${this.API_URL}/members/auth?login=${user.login}&password=${user.password}&key=${this.BETASERIES_KEY}`);
+        return network.post(`${this.API_URL}/members/auth?login=${user.login}&password=${user.password}&key=${this.BETASERIES_KEY}`);
     }
 }
 
