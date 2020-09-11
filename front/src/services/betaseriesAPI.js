@@ -1,17 +1,17 @@
 import { network } from './network';
 
-class BetaseriesAPI {
-    API_URL = process.env.REACT_APP_BETASERIES_API_URL;
-    BETASERIES_KEY = process.env.REACT_APP_BETASERIES_KEY;
+const API_URL = process.env.REACT_APP_BETASERIES_API_URL;
+const BETASERIES_KEY = process.env.REACT_APP_BETASERIES_KEY;
 
-    config = {
-        headers: {
-            'x-access-token': '123',
-        }
+const config = {
+    headers: {
+        'X-BetaSeries-Key': BETASERIES_KEY,
     }
+}
 
+class BetaseriesAPI {
     login(user) {
-        return network.post(`${this.API_URL}/members/auth?login=${user.login}&password=${user.password}&key=${this.BETASERIES_KEY}`);
+        return network.post(`${API_URL}/members/auth?login=${user.login}&password=${user.password}`, {}, config);
     }
 }
 

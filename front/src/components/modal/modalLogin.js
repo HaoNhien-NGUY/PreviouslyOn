@@ -32,13 +32,6 @@ export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
                 invalids.error = "Login ou mot de passe incorrect !";
 
                 setIsInvalid(invalids);
-                
-                // if (res.data.errors[0].code === 4002) {
-                //     console.log("Aucun utilisateur trouvé.");
-                // }
-                // else if (res.data.errors[0].code === 4003) {
-                //     console.log("Mot de passe incorrect.")
-                // }
             }
         }
     }

@@ -1,4 +1,5 @@
 import { ACTIONS } from './actions';
+import { authService } from '../services/authService';
 
 export const reducer = (state, action) => {
     switch (action.type) {
@@ -12,9 +13,11 @@ export const reducer = (state, action) => {
                 access_token
             };
         case ACTIONS.LOGOUT:
+            authService.logout();
             return {
                 ...state,
-                user: false
+                user: false,
+                access_token: null
             };
         default:
             return state;

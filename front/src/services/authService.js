@@ -1,6 +1,10 @@
 import { network } from './network';
 
 class AuthService {
+    login(user) {
+        localStorage.setItem("user", JSON.stringify(user));
+    }
+
     logout() {
         localStorage.removeItem("user");
     }
