@@ -7,7 +7,6 @@ class BetaseriesAPI {
     config = {
         headers: {
             'x-access-token': '123',
-            "Content-type": "application/json"
         }
     }
 

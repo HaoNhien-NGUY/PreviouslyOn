@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useStore, ACTIONS } from '../store/store';
 import { Button, Typography, Toolbar, AppBar } from '@material-ui/core';
@@ -19,9 +19,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ButtonAppBar() {
+export default function NavBar() {
     const classes = useStyles();
     const [store, storeDispatch] = useStore();
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     console.log(store);
     return (
@@ -35,11 +44,11 @@ export default function ButtonAppBar() {
                         ?
                         <Button color="inherit" onClick={() => storeDispatch({ type: ACTIONS.LOGOUT })}>Logout</Button>
                         :
-                        // <Button color="inherit" onClick={() => storeDispatch({ type: ACTIONS.LOGIN, payload: { username: "Nordine", email: 'nordine@nordine.fr', access_token: "123" } })}>Login</Button>
-                        <ModalLogin />
+                        <Button color="inherit" onClick={() => handleClickOpen()}>Login</Button>
                     }
                 </Toolbar>
             </AppBar>
+            <ModalLogin isOpen={open} handleClickOpen={handleClickOpen} handleClose={handleClose} />
         </div>
     );
 }

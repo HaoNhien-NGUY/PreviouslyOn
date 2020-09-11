@@ -3,20 +3,10 @@ import { useStore, ACTIONS } from '../../store/store';
 import { betaseriesAPI } from '../../services/betaseriesAPI';
 import { Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 
-export default function ButtonAppBar() {
+export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
     const [store, storeDispatch] = useStore();
-    const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
-    // const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const handleSubmit = () => {
         let md5 = require('md5');
@@ -31,7 +21,7 @@ export default function ButtonAppBar() {
                 .then((res) => {
                     console.log(res);
                     handleClose();
-                    storeDispatch({ type: ACTIONS.LOGIN, payload: { username: name, access_token: "123" } });
+                    storeDispatch({ type: ACTIONS.LOGIN, payload: { username: name, password: "123" } });   
                 })
                 .catch((err) => {
                     console.log(err);
@@ -41,10 +31,7 @@ export default function ButtonAppBar() {
 
     return (
         <>
-            <Button color="inherit" onClick={handleClickOpen}>
-                Login
-            </Button>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Login</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -56,15 +43,6 @@ export default function ButtonAppBar() {
                         fullWidth
                         onChange={(e) => { setName(e.target.value) }}
                     />
-                    {/* <TextField
-                        autoFocus
-                        margin="dense"
-                        id="email"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                        onChange={(e) => { setEmail(e.target.value) }}
-                    /> */}
                     <TextField
                         margin="dense"
                         id="password"
