@@ -13,7 +13,7 @@ export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
 
         if (name && password) {
             const user = {
-                username: name,
+                login: name,
                 password: md5(password)
             }
 
@@ -21,7 +21,7 @@ export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
                 .then((res) => {
                     console.log(res);
                     handleClose();
-                    storeDispatch({ type: ACTIONS.LOGIN, payload: { username: name, password: "123" } });   
+                    storeDispatch({ type: ACTIONS.LOGIN, payload: { login: res.data.user.login, access_token: res.data.token } });   
                 })
                 .catch((err) => {
                     console.log(err);

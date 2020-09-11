@@ -11,7 +11,7 @@ class BetaseriesAPI {
     }
 
     login(user) {
-        return axios.post(`${this.API_URL}/members/auth?login=${user.username}&password=${user.password}&key=${this.BETASERIES_KEY}`);
+        return axios.post(`${this.API_URL}/members/auth?login=${user.login}&password=${user.password}&key=${this.BETASERIES_KEY}`);
     }
 }
 
