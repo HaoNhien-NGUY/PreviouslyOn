@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useStore, ACTIONS } from '../../store/store';
 import { betaseriesAPI } from '../../services/betaseriesAPI';
 import { Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+const md5 = require('md5');
 
 export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
     const [store, storeDispatch] = useStore();
@@ -9,7 +10,6 @@ export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
     const [password, setPassword] = useState("");
 
     const handleSubmit = () => {
-        let md5 = require('md5');
 
         if (name && password) {
             const user = {
