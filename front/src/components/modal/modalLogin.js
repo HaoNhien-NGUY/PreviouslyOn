@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { useStore, ACTIONS } from '../../store/store';
 import { betaseriesAPI } from '../../services/betaseriesAPI';
 import { Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import './modalLogin.css';
 const md5 = require('md5');
 
 export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
     const [store, storeDispatch] = useStore();
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
+    const [isInvalid, setIsInvalid] = useState(false);
 
     const handleSubmit = async () => {
+        let invalids = {};
 
         if (name && password) {
             const user = {
@@ -23,8 +26,19 @@ export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
                 console.log(res);
                 handleClose();
                 storeDispatch({ type: ACTIONS.LOGIN, payload: { login: res.data.user.login, access_token: res.data.token } });
+                setIsInvalid(invalids);
             } else {
                 console.log(res.data);
+                invalids.error = "Login ou mot de passe incorrect !";
+
+                setIsInvalid(invalids);
+                
+                // if (res.data.errors[0].code === 4002) {
+                //     console.log("Aucun utilisateur trouvé.");
+                // }
+                // else if (res.data.errors[0].code === 4003) {
+                //     console.log("Mot de passe incorrect.")
+                // }
             }
         }
     }
@@ -33,6 +47,9 @@ export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
         <>
             <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Login</DialogTitle>
+                
+                <div className="error">{ isInvalid.error }</div>
+
                 <DialogContent>
                     <TextField
                         autoFocus
