@@ -31,6 +31,18 @@ class BetaseriesAPI {
         return network.get(`${API_URL}/movies/list`, authHeader());
     }
 
+    IsTokenActive(token) {
+        return network.get(`${API_URL}/members/is_active`, authHeader(token));
+    }
+
+    getUserInfo(token) {
+        return network.get(`${API_URL}/members/infos`, authHeader(token));
+    }
+
+    memberDestroyToken(token) {
+        return network.post(`${API_URL}/members/destroy`, {}, authHeader(token));
+    }
+
     blockFriend(id, token) {
         return network.post(`${API_URL}/friends/block`, { id }, authHeader(token));
     }

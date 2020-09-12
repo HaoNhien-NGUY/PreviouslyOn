@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { useStore } from './store/store';
+import { useStore, ACTIONS } from './store/store';
 import { authService } from './services/authService';
+import { betaseriesAPI } from './services/betaseriesAPI';
 
 import Navbar from './components/navbar';
 import Movies from './components/cinema/movies/getAllMovies';
@@ -10,12 +11,20 @@ import Shows from './components/cinema/shows/getAllShows';
 function App() {
   const [store, dispatch] = useStore();
 
-  //ici recuperation token du localstorage, 
-  //req vers l'api pour verifier le token, 
-  //dispatch user dans le store
+  //resume session if valid token is found
   useEffect(() => {
     const access_token = authService.getToken();
-    console.log(access_token);
+
+    if (access_token) {
+      betaseriesAPI.getUserInfo('lol')
+        .then(response => {
+          dispatch({ type: ACTIONS.LOGIN, payload: { login: response.data.member.login, access_token }});
+        })
+        .catch(() => dispatch({ type: ACTIONS.USER_LOADED }));
+    } else {
+      dispatch({ type: ACTIONS.USER_LOADED });
+    }
+
   }, []);
 
   return (

@@ -1,5 +1,6 @@
 export const ACTIONS = {
     LOGIN: 'login',
     LOGOUT: 'logout',
-    RESUME_SESSION: 'resume_session',
+    USER_LOADING: 'user_loading',
+    USER_LOADED: 'user_loaded',
 }

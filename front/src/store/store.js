@@ -4,7 +4,8 @@ import { reducer } from './reducer';
 
 const initialState = {
     user: false,
-    access_token: null
+    access_token: null,
+    user_loading: true,
 };
 
 const storeContext = createContext(initialState);

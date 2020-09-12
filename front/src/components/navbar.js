@@ -47,7 +47,7 @@ export default function NavBar() {
                     }
                 </Toolbar>
             </AppBar>
-            <ModalLogin isOpen={open} handleClickOpen={handleClickOpen} handleClose={handleClose} />
+            <ModalLogin isOpen={open} handleClickOpen={handleClickOpen} handleClose={handleClose} storeDispatch={storeDispatch}/>
         </div>
     );
 }

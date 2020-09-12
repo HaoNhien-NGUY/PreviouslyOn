@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useStore, ACTIONS } from '../../store/store';
+import { ACTIONS } from '../../store/store';
 import { betaseriesAPI } from '../../services/betaseriesAPI';
 import { Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import './modalLogin.css';
 const md5 = require('md5');
 
-export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
-    const [store, storeDispatch] = useStore();
+export default function ModalLogin({ isOpen, storeDispatch, handleClose }) {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [isInvalid, setIsInvalid] = useState(false);
@@ -33,12 +32,14 @@ export default function ModalLogin({ isOpen, handleClickOpen, handleClose }) {
 
                 setIsInvalid(invalids);
             }
+        } else {
+            setIsInvalid({ error: 'Login ou mot de passe manquant.' });
         }
     }
 
     return (
         <>
-            <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={isOpen} onClose={() => { handleClose(); setIsInvalid({}); }} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Login</DialogTitle>
                 
                 <div className="error">{ isInvalid.error }</div>

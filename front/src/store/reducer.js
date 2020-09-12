@@ -10,9 +10,10 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 user: {
-                    login
+                    login,
                 },
-                access_token
+                access_token,
+                user_loading: false,
             };
         case ACTIONS.LOGOUT:
             authService.removeToken();
@@ -20,8 +21,18 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 user: false,
-                access_token: null
+                access_token: null,
             };
+        case ACTIONS.USER_LOADING:
+            return {
+                ...state,
+                user_loading: true,
+            }
+        case ACTIONS.USER_LOADED:
+            return {
+                ...state,
+                user_loading: false,
+            }
         default:
             return state;
     };
