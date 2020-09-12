@@ -16,7 +16,7 @@ function App() {
     const access_token = authService.getToken();
 
     if (access_token) {
-      betaseriesAPI.getUserInfo('lol')
+      betaseriesAPI.getUserInfo(access_token)
         .then(response => {
           dispatch({ type: ACTIONS.LOGIN, payload: { login: response.data.member.login, access_token }});
         })
