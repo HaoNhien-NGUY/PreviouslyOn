@@ -39,15 +39,17 @@ export default function NavBar() {
                     <Typography variant="h6" className={`${classes.title} ${classes.textleft}`}>
                         PreviouslyOn
                     </Typography>
-                    {store.user
-                        ?
-                        <Button color="inherit" onClick={() => storeDispatch({ type: ACTIONS.LOGOUT })}>Logout</Button>
-                        :
-                        <Button color="inherit" onClick={handleClickOpen}>Login</Button>
+                    {store.user_loading ||
+                        (store.user
+                            ?
+                            <Button color="inherit" onClick={() => storeDispatch({ type: ACTIONS.LOGOUT })}>Logout</Button>
+                            :
+                            <Button color="inherit" onClick={handleClickOpen}>Login</Button>
+                        )
                     }
                 </Toolbar>
             </AppBar>
-            <ModalLogin isOpen={open} handleClickOpen={handleClickOpen} handleClose={handleClose} storeDispatch={storeDispatch}/>
+            <ModalLogin isOpen={open} handleClickOpen={handleClickOpen} handleClose={handleClose} storeDispatch={storeDispatch} />
         </div>
     );
 }

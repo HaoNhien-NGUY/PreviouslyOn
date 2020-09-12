@@ -28,7 +28,7 @@ export const reducer = (state, action) => {
                 ...state,
                 user_loading: true,
             }
-        case ACTIONS.USER_LOADED:
+        case ACTIONS.USER_LOADING_DONE:
             return {
                 ...state,
                 user_loading: false,

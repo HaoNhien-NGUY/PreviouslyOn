@@ -20,9 +20,9 @@ function App() {
         .then(response => {
           dispatch({ type: ACTIONS.LOGIN, payload: { login: response.data.member.login, access_token }});
         })
-        .catch(() => dispatch({ type: ACTIONS.USER_LOADED }));
+        .catch(() => dispatch({ type: ACTIONS.USER_LOADING_DONE }));
     } else {
-      dispatch({ type: ACTIONS.USER_LOADED });
+      dispatch({ type: ACTIONS.USER_LOADING_DONE });
     }
 
   }, []);

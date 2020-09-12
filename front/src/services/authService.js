@@ -1,5 +1,4 @@
-
-const TOKEN_KEY = "betaseries-auth";
+const TOKEN_KEY = "betaseries_token";
 
 class AuthService {
     setToken(token) {
