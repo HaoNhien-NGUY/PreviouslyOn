@@ -56,7 +56,14 @@ export default function NavBar() {
                         (store.user
                             ?
                             (<>
-                                <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleProfileMenuClick} >{store.user.login}</Button>
+                                <Button 
+                                color="inherit" 
+                                aria-controls="simple-menu" 
+                                aria-haspopup="true" 
+                                onClick={handleProfileMenuClick} 
+                                style={{ marginRight: '10px' }} >
+                                    {store.user.login}
+                                </Button>
                                 <ProfileMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} storeDispatch={storeDispatch} />
                                 {store.user.avatar ? <Avatar alt="profile-pic" src={store.user.avatar}></Avatar> : <Avatar>{store.user.login.charAt(0)}</Avatar>}
                             </>)
