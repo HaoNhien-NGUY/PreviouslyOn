@@ -18,7 +18,6 @@ export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDisp
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
-        // keepMounted
         PaperProps={{
             style: {
               transform: `translateY(${anchorEl?.offsetHeight}px)`,
@@ -29,7 +28,8 @@ export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDisp
         open={openMenu}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>Profil</MenuItem>
+        <MenuItem>Mes Amis</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>
