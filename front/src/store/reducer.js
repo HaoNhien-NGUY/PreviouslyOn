@@ -5,6 +5,8 @@ export const reducer = (state, action) => {
     switch (action.type) {
         case ACTIONS.LOGIN:
             const { login, access_token } = action.payload;
+            authService.setToken(access_token);
+
             return {
                 ...state,
                 user: {
@@ -13,7 +15,8 @@ export const reducer = (state, action) => {
                 access_token
             };
         case ACTIONS.LOGOUT:
-            authService.logout();
+            authService.removeToken();
+
             return {
                 ...state,
                 user: false,

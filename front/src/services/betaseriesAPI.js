@@ -3,28 +3,36 @@ import { network } from './network';
 const API_URL = process.env.REACT_APP_BETASERIES_API_URL;
 const BETASERIES_KEY = process.env.REACT_APP_BETASERIES_KEY;
 
-const config = {
-    headers: {
-        'X-BetaSeries-Key': BETASERIES_KEY,
+const authHeader = (token = false) => {
+    const config = {
+        headers: {
+            'X-BetaSeries-Key': BETASERIES_KEY,
+        }
     }
+
+    if (!token) {
+        return config;
+    }
+    
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
 }
 
 class BetaseriesAPI {
     login(user) {
-        return network.post(`${API_URL}/members/auth?login=${user.login}&password=${user.password}`, {}, config);
+        return network.post(`${API_URL}/members/auth?login=${user.login}&password=${user.password}`, {}, authHeader());
     }
 
     getAllShows(params) {
-        return network.get(`${API_URL}/shows/list?limit=${params.limit}&start=${params.start}`, config);
+        return network.get(`${API_URL}/shows/list?limit=${params.limit}&start=${params.start}`, authHeader());
     }
-    
+
     getAllMovies() {
-        return network.get(`${API_URL}/movies/list`, config);
+        return network.get(`${API_URL}/movies/list`, authHeader());
     }
 
     blockFriend(id, token) {
-        config.headers.Authorization = `Bearer ${token}`;
-        return network.post(`${API_URL}/friends/block`, { id }, config);
+        return network.post(`${API_URL}/friends/block`, { id }, authHeader(token));
     }
 }
 

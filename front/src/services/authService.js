@@ -1,19 +1,19 @@
-import { network } from './network';
+
+const TOKEN_KEY = "betaseries-auth";
 
 class AuthService {
-    login(user) {
-        localStorage.setItem("user", JSON.stringify(user));
+    setToken(token) {
+        localStorage.setItem(TOKEN_KEY, token);
     }
 
-    logout() {
-        localStorage.removeItem("user");
+    removeToken() {
+        localStorage.removeItem(TOKEN_KEY);
     }
 
-    getCurrentUser() {
-        return JSON.parse(localStorage.getItem('user'));;
+    getToken() {
+        return localStorage.getItem(TOKEN_KEY);
     }
 }
-
 
 const authService = new AuthService();
 Object.freeze(authService);

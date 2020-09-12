@@ -32,7 +32,6 @@ export default function NavBar() {
         setOpen(false);
     };
 
-    console.log(store);
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -44,7 +43,7 @@ export default function NavBar() {
                         ?
                         <Button color="inherit" onClick={() => storeDispatch({ type: ACTIONS.LOGOUT })}>Logout</Button>
                         :
-                        <Button color="inherit" onClick={() => handleClickOpen()}>Login</Button>
+                        <Button color="inherit" onClick={handleClickOpen}>Login</Button>
                     }
                 </Toolbar>
             </AppBar>

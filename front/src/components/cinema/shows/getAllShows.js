@@ -22,7 +22,7 @@ export default function Shows() {
 
     useEffect(() => {
         showShows();
-    }, [showShows]);
+    }, []);
 
     const pagePrev = () => {
         params.start = params.start - 20;
@@ -37,7 +37,7 @@ export default function Shows() {
     return (
         <>
             {allShows && allShows.map((e) => {
-                console.log(e);
+                // console.log(e);
                 return (<div key={e.id}>
                     <span>Title: {e.title}</span>
                     <br />
