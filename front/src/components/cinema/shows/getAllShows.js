@@ -14,6 +14,7 @@ export default function Shows() {
         const res = await betaseriesAPI.getAllShows(params);
 
         if (res.status === 200) {
+            console.log(res);
             setAllShows(res.data.shows);
         } else {
             console.log(res.data);

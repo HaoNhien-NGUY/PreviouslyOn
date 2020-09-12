@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useStore } from '../../store/store';
 import { Button, Typography, Toolbar, AppBar, Avatar } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import ModalLogin from '../modal/modalLogin';
 import ProfileMenu from './profileMenu';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +26,9 @@ export default function NavBar() {
     const classes = useStyles();
     const [store, storeDispatch] = useStore();
     const [open, setOpen] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [openMenu, setOpenMenu] = useState(false);
+    // const [anchorEl, setAnchorEl] = useState(null);
+    const anchorEl = useRef(null);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -36,7 +39,7 @@ export default function NavBar() {
     };
 
     const handleProfileMenuClick = (event) => {
-        setAnchorEl(event.currentTarget);
+        setOpenMenu(true);
     };
 
 
@@ -56,15 +59,18 @@ export default function NavBar() {
                         (store.user
                             ?
                             (<>
-                                <Button 
-                                color="inherit" 
-                                aria-controls="simple-menu" 
-                                aria-haspopup="true" 
-                                onClick={handleProfileMenuClick} 
-                                style={{ marginRight: '10px' }} >
+                                <Button
+                                    ref={anchorEl}
+                                    color="inherit"
+                                    aria-controls="simple-menu"
+                                    aria-haspopup="true"
+                                    onClick={handleProfileMenuClick}
+                                    style={{ marginRight: '5px' }}
+                                >
                                     {store.user.login}
+                                    <ArrowDropDownIcon style={{ marginLeft: '3px' }}/>
                                 </Button>
-                                <ProfileMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} storeDispatch={storeDispatch} />
+                                <ProfileMenu anchorEl={anchorEl.current} openMenu={openMenu} setOpenMenu={setOpenMenu} storeDispatch={storeDispatch} />
                                 {store.user.avatar ? <Avatar alt="profile-pic" src={store.user.avatar}></Avatar> : <Avatar>{store.user.login.charAt(0)}</Avatar>}
                             </>)
                             :

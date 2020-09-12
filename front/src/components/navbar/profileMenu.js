@@ -1,11 +1,11 @@
 import React from 'react';
-import { Menu, MenuItem } from '@material-ui/core';
+import { Menu, MenuItem, Fade } from '@material-ui/core';
 import { ACTIONS } from '../../store/store';
 
-export default function ProfileMenu({ anchorEl, setAnchorEl, storeDispatch }) {
+export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDispatch }) {
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setOpenMenu(false);
   };
 
   const handleLogout = () => {
@@ -18,8 +18,15 @@ export default function ProfileMenu({ anchorEl, setAnchorEl, storeDispatch }) {
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
+        // keepMounted
+        PaperProps={{
+            style: {
+              transform: `translateY(${anchorEl?.offsetHeight}px)`,
+              width: anchorEl?.offsetWidth,
+            },
+        }}
+        TransitionComponent={Fade}
+        open={openMenu}
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
