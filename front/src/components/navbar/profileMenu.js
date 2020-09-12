@@ -5,9 +5,13 @@ import { ACTIONS } from '../../store/store';
 export default function ProfileMenu({ anchorEl, setAnchorEl, storeDispatch }) {
 
   const handleClose = () => {
-    storeDispatch({ type: ACTIONS.LOGOUT });
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    storeDispatch({ type: ACTIONS.LOGOUT });
+    handleClose();
+  }
 
   return (
     <>
@@ -19,7 +23,7 @@ export default function ProfileMenu({ anchorEl, setAnchorEl, storeDispatch }) {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>
   );
