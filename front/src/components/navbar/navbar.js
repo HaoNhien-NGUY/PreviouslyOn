@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useStore, ACTIONS } from '../store/store';
-import { Button, Typography, Toolbar, AppBar } from '@material-ui/core';
-import ModalLogin from './modal/modalLogin';
+import { useStore } from '../../store/store';
+import { Button, Typography, Toolbar, AppBar, Avatar } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
+import ModalLogin from '../modal/modalLogin';
+import ProfileMenu from './profileMenu';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,6 +25,7 @@ export default function NavBar() {
     const classes = useStyles();
     const [store, storeDispatch] = useStore();
     const [open, setOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -32,6 +35,11 @@ export default function NavBar() {
         setOpen(false);
     };
 
+    const handleProfileMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -39,10 +47,19 @@ export default function NavBar() {
                     <Typography variant="h6" className={`${classes.title} ${classes.textleft}`}>
                         PreviouslyOn
                     </Typography>
-                    {store.user_loading ||
+                    {store.user_loading ?
+                        (<>
+                            <Skeleton variant="text" width="10%" style={{ marginRight: '10px' }}></Skeleton>
+                            <Skeleton variant="circle" width={40} height={40}></Skeleton>
+                        </>)
+                        :
                         (store.user
                             ?
-                            <Button color="inherit" onClick={() => storeDispatch({ type: ACTIONS.LOGOUT })}>Logout</Button>
+                            (<>
+                                <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleProfileMenuClick} >{store.user.login}</Button>
+                                <ProfileMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} storeDispatch={storeDispatch} />
+                                {store.user.avatar ? <Avatar alt="profile-pic" src={store.user.avatar}></Avatar> : <Avatar>{store.user.login.charAt(0)}</Avatar>}
+                            </>)
                             :
                             <Button color="inherit" onClick={handleClickOpen}>Login</Button>
                         )

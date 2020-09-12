@@ -4,13 +4,15 @@ import { authService } from '../services/authService';
 export const reducer = (state, action) => {
     switch (action.type) {
         case ACTIONS.LOGIN:
-            const { login, access_token } = action.payload;
+            const { login, access_token, avatar, locale } = action.payload;
             authService.setToken(access_token);
 
             return {
                 ...state,
                 user: {
                     login,
+                    avatar,
+                    locale,
                 },
                 access_token,
                 user_loading: false,

@@ -3,7 +3,7 @@ import { useStore, ACTIONS } from './store/store';
 import { authService } from './services/authService';
 import { betaseriesAPI } from './services/betaseriesAPI';
 
-import Navbar from './components/navbar';
+import Navbar from './components/navbar/navbar';
 import Movies from './components/cinema/movies/getAllMovies';
 import Shows from './components/cinema/shows/getAllShows';
 
@@ -18,7 +18,8 @@ function App() {
     if (access_token) {
       betaseriesAPI.getUserInfo(access_token)
         .then(response => {
-          dispatch({ type: ACTIONS.LOGIN, payload: { login: response.data.member.login, access_token }});
+          const { login, avatar, locale } = response.data.member;
+          dispatch({ type: ACTIONS.LOGIN, payload: { login, access_token, avatar, locale }});
         })
         .catch(() => dispatch({ type: ACTIONS.USER_LOADING_DONE }));
     } else {

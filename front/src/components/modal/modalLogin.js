@@ -22,14 +22,13 @@ export default function ModalLogin({ isOpen, storeDispatch, handleClose }) {
             const res = await betaseriesAPI.login(user);
 
             if (res.status === 200) {
-                console.log(res);
+                const userResp = await betaseriesAPI.getUserInfo(res.data.token);
+                const { login, avatar, locale } = userResp.data.member;
+                storeDispatch({ type: ACTIONS.LOGIN, payload: { login, access_token: res.data.token, avatar, locale } });
                 handleClose();
-                storeDispatch({ type: ACTIONS.LOGIN, payload: { login: res.data.user.login, access_token: res.data.token } });
                 setIsInvalid(invalids);
             } else {
-                console.log(res.data);
                 invalids.error = "Login ou mot de passe incorrect !";
-
                 setIsInvalid(invalids);
             }
         } else {
@@ -41,8 +40,8 @@ export default function ModalLogin({ isOpen, storeDispatch, handleClose }) {
         <>
             <Dialog open={isOpen} onClose={() => { handleClose(); setIsInvalid({}); }} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Login</DialogTitle>
-                
-                <div className="error">{ isInvalid.error }</div>
+
+                <div className="error">{isInvalid.error}</div>
 
                 <DialogContent>
                     <TextField
