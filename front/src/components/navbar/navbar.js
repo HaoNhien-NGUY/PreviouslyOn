@@ -7,6 +7,8 @@ import ModalLogin from '../modal/modalLogin';
 import ProfileMenu from './profileMenu';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
+import NavigationMenu from './navItems';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -27,7 +29,6 @@ export default function NavBar() {
     const [store, storeDispatch] = useStore();
     const [open, setOpen] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
-    // const [anchorEl, setAnchorEl] = useState(null);
     const anchorEl = useRef(null);
 
     const handleClickOpen = () => {
@@ -38,11 +39,6 @@ export default function NavBar() {
         setOpen(false);
     };
 
-    const handleProfileMenuClick = (event) => {
-        setOpenMenu(true);
-    };
-
-
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -50,36 +46,46 @@ export default function NavBar() {
                     <Typography variant="h6" className={`${classes.title} ${classes.textleft}`}>
                         PreviouslyOn
                     </Typography>
-                    {store.user_loading ?
-                        (<>
-                            <Skeleton variant="text" width="10%" style={{ marginRight: '10px' }}></Skeleton>
-                            <Skeleton variant="circle" width={40} height={40}></Skeleton>
-                        </>)
-                        :
-                        (store.user
-                            ?
+                    <div style={{
+                        position: 'absolute',
+                        left: '50%',
+                        transform: 'translateX(-50%)'
+                    }}>
+                        <NavigationMenu />
+                    </div>
+                    <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
+                        {store.user_loading ?
                             (<>
-                                <Button
-                                    ref={anchorEl}
-                                    color="inherit"
-                                    aria-controls="simple-menu"
-                                    aria-haspopup="true"
-                                    onClick={handleProfileMenuClick}
-                                    style={{ marginRight: '5px' }}
-                                >
-                                    {store.user.login}
-                                    <ArrowDropDownIcon style={{ marginLeft: '3px' }}/>
-                                </Button>
-                                <ProfileMenu anchorEl={anchorEl.current} openMenu={openMenu} setOpenMenu={setOpenMenu} storeDispatch={storeDispatch} />
-                                {store.user.avatar ? <Avatar alt="profile-pic" src={store.user.avatar}></Avatar> : <Avatar>{store.user.login.charAt(0)}</Avatar>}
+                                <Skeleton variant="text" width="18%" style={{ marginRight: '10px' }}></Skeleton>
+                                <Skeleton variant="circle" width={40} height={40}></Skeleton>
                             </>)
                             :
-                            <Button color="inherit" onClick={handleClickOpen}>Login</Button>
-                        )
-                    }
+                            (store.user
+                                ?
+                                (<>
+                                    <Button
+                                        ref={anchorEl}
+                                        color="inherit"
+                                        aria-controls="simple-menu"
+                                        aria-haspopup="true"
+                                        onClick={() => setOpenMenu(true)}
+                                        style={{ marginRight: '5px' }}
+                                    >
+                                        {store.user.login}
+                                        <ArrowDropDownIcon style={{ marginLeft: '3px' }} />
+                                    </Button>
+                                    <ProfileMenu anchorEl={anchorEl.current} openMenu={openMenu} setOpenMenu={setOpenMenu} storeDispatch={storeDispatch} />
+                                    {store.user.avatar ? <Avatar alt="profile-pic" src={store.user.avatar}></Avatar> : <Avatar>{store.user.login.charAt(0)}</Avatar>}
+                                </>)
+                                :
+                                <Button color="inherit" onClick={handleClickOpen}>Login</Button>
+                            )
+                        }
+                    </div>
+
                 </Toolbar>
             </AppBar>
-            <ModalLogin isOpen={open} handleClickOpen={handleClickOpen} handleClose={handleClose} storeDispatch={storeDispatch} />
+            <ModalLogin isOpen={open} handleClose={handleClose} storeDispatch={storeDispatch} />
         </div>
     );
 }

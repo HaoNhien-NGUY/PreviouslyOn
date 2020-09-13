@@ -23,6 +23,7 @@ export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDisp
               transform: `translateY(${anchorEl?.offsetHeight}px)`,
               width: anchorEl?.offsetWidth,
             },
+            elevation: 3
         }}
         TransitionComponent={Fade}
         open={openMenu}

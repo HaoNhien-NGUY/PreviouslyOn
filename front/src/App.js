@@ -6,7 +6,7 @@ import { betaseriesAPI } from './services/betaseriesAPI';
 import Navbar from './components/navbar/navbar';
 import Movies from './components/cinema/movies/getAllMovies';
 import Shows from './components/cinema/shows/getAllShows';
-
+import Home from './components/home/home';
 
 function App() {
   const [store, dispatch] = useStore();
@@ -34,7 +34,8 @@ function App() {
         <Navbar />
       </header>
       {/* <Movies /> */}
-      <Shows />
+      {/* <Shows /> */}
+      <Home />
     </div>
   );
 }
