@@ -12,12 +12,17 @@ import NavigationMenu from './navItems';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        marginBottom: '40px',
     },
     menuButton: {
         marginRight: theme.spacing(2),
     },
+    appBar: {
+        backgroundColor: 'white',
+    },
     title: {
         flexGrow: 1,
+        color: 'rgba(0, 0, 0, 0.54)',
     },
     textleft: {
         textAlign: "left",
@@ -41,7 +46,7 @@ export default function NavBar() {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar className={classes.appBar} position="static">
                 <Toolbar>
                     <Typography variant="h6" className={`${classes.title} ${classes.textleft}`}>
                         PreviouslyOn
@@ -65,11 +70,10 @@ export default function NavBar() {
                                 (<>
                                     <Button
                                         ref={anchorEl}
-                                        color="inherit"
                                         aria-controls="simple-menu"
                                         aria-haspopup="true"
                                         onClick={() => setOpenMenu(true)}
-                                        style={{ marginRight: '5px' }}
+                                        style={{ marginRight: '5px', color: 'rgba(0, 0, 0, 0.54)' }}
                                     >
                                         {store.user.login}
                                         <ArrowDropDownIcon style={{ marginLeft: '3px' }} />
@@ -78,7 +82,7 @@ export default function NavBar() {
                                     {store.user.avatar ? <Avatar alt="profile-pic" src={store.user.avatar}></Avatar> : <Avatar>{store.user.login.charAt(0)}</Avatar>}
                                 </>)
                                 :
-                                <Button color="inherit" onClick={handleClickOpen}>Login</Button>
+                                <Button onClick={handleClickOpen}>Login</Button>
                             )
                         }
                     </div>
