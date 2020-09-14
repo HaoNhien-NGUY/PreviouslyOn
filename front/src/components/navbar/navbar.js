@@ -12,7 +12,7 @@ import NavigationMenu from './navItems';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        marginBottom: '40px',
+        marginBottom: '45px',
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
-        color: 'rgba(0, 0, 0, 0.54)',
     },
     textleft: {
         textAlign: "left",
@@ -48,8 +47,8 @@ export default function NavBar() {
         <div className={classes.root}>
             <AppBar className={classes.appBar} position="static" elevation={0}>
                 <Toolbar>
-                    <Typography variant="h6" className={`${classes.title} ${classes.textleft}`}>
-                        PreviouslyOn
+                    <Typography variant="h4" color="primary" className={`${classes.title} ${classes.textleft}`}>
+                        hNentai
                     </Typography>
                     <div style={{
                         position: 'absolute',
@@ -82,7 +81,7 @@ export default function NavBar() {
                                     {store.user.avatar ? <Avatar alt="profile-pic" src={store.user.avatar}></Avatar> : <Avatar>{store.user.login.charAt(0)}</Avatar>}
                                 </>)
                                 :
-                                <Button onClick={handleClickOpen}>Login</Button>
+                                <Button onClick={handleClickOpen} style={{ color: 'rgba(0, 0, 0, 0.54)' }}>Login</Button>
                             )
                         }
                     </div>

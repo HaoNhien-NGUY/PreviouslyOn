@@ -17,27 +17,27 @@ export default function CenteredGrid() {
     const classes = useStyles();
 
     return (
-        <Container fixed>
+        <Container maxWidth={'xl'}>
             <Grid container spacing={3}>
-                <Grid item xs={12}>
+                <Grid item xs={2}>
                     <Paper className={classes.paper}>xs=12</Paper>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={2}>
                     <Paper className={classes.paper}>xs=6</Paper>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={2}>
                     <Paper className={classes.paper}>xs=6</Paper>
                 </Grid>
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>xs=3</Paper>
+                <Grid item xs={2}>
+                    <Paper className={classes.paper}>xs=2</Paper>
                 </Grid>
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>xs=3</Paper>
+                <Grid item xs={2}>
+                    <Paper className={classes.paper}>xs=2</Paper>
                 </Grid>
-                <Grid item xs={3}>
-                    <Paper className={classes.paper}>xs=3</Paper>
+                <Grid item xs={2}>
+                    <Paper className={classes.paper}>xs=2</Paper>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                     <Paper className={classes.paper}>xs=3</Paper>
                 </Grid>
             </Grid>

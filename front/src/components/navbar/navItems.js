@@ -6,7 +6,7 @@ export const FloatNavigationMenuStyle = React.memo(
   function FloatNavigationMenu() {
     return (
       <>
-        <NavMenu gutter={1} useStyles={useFloatNavigationMenuStyles}>
+        <NavMenu gutter={1} useStyles={useFloatNavigationMenuStyles} style={{ fontSize: '1.4rem' }}>
           <NavItem active>Acceuil</NavItem>
           <NavItem>Séries</NavItem>
           <NavItem>Films</NavItem>
