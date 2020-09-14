@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouteMatch } from "react-router-dom";
-import { Container, Grid, Paper } from '@material-ui/core';
+import { Container, Grid, Paper, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { betaseriesAPI } from '../../../services/betaseriesAPI';
-import { authService } from '../../../services/authService';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,14 +14,17 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
     },
     upperCase: {
-        textTransform: 'upperCase',
-    }
+        // textTransform: 'upperCase',
+    },
+    large: {
+        width: '100%',
+        height: '100%',
+    },
 }));
 
 export default function Profil() {
     const [userInfo, setUserInfo] = useState(null);
     const classes = useStyles();
-    const access_token = authService.getToken();
 
     let idUser = useRouteMatch("/profil/:id").params.id;
 
@@ -37,7 +39,7 @@ export default function Profil() {
 
     return (
         <>
-            { userInfo != null &&
+            { userInfo !== null &&
                 <Container maxWidth={'lg'}>
                     <Grid container spacing={4}>
                         <Grid item xs={12}>
@@ -48,7 +50,10 @@ export default function Profil() {
                         <Grid item xs={4}>
                             {/* <Paper className={classes.paper}>xs=6</Paper> */}
                             <Paper className={classes.paper}>
-                                <img src={userInfo.avatar} alt="Avatar" />
+                                <Avatar variant="rounded" alt="profile-pic" src={userInfo.avatar} className={classes.large}>
+
+                                </Avatar>
+                                {/* <img src={userInfo.avatar} alt="Avatar" /> */}
                             </Paper>
                         </Grid>
                         <Grid item xs={2}>
