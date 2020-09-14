@@ -111,7 +111,7 @@ export default function ModalLogin({ isOpen, storeDispatch, handleClose }) {
                                     onClick={handleSubmit}
                                     variant="contained"
                                     color="primary"
-                                    style={{ margin: '35px auto 20px auto', display: 'block' }}
+                                    style={{ margin: '35px auto 10px auto', display: 'block' }}
                                 >
                                     Submit
                                 </Button>
@@ -121,7 +121,7 @@ export default function ModalLogin({ isOpen, storeDispatch, handleClose }) {
                     </form>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">Cancel</Button>
+                    <Button onClick={() => {handleClose(); resetErrorMsg()}} color="primary">Cancel</Button>
                 </DialogActions>
             </Dialog>
         </>
