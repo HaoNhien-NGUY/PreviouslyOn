@@ -2,6 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, Paper } from '@material-ui/core';
 
+import PosterCard from '../card/posterCard';
+
 const useStyles = makeStyles((theme) => ({
     // root: {
     //     flexGrow: 1,
@@ -20,25 +22,22 @@ export default function CenteredGrid() {
         <Container maxWidth={'xl'}>
             <Grid container spacing={3}>
                 <Grid item xs={2}>
-                    <Paper className={classes.paper}>xs=12</Paper>
+                    <PosterCard />
                 </Grid>
                 <Grid item xs={2}>
-                    <Paper className={classes.paper}>xs=6</Paper>
+                    <PosterCard />
                 </Grid>
                 <Grid item xs={2}>
-                    <Paper className={classes.paper}>xs=6</Paper>
+                    <PosterCard />
                 </Grid>
                 <Grid item xs={2}>
-                    <Paper className={classes.paper}>xs=2</Paper>
+                    <PosterCard />
                 </Grid>
                 <Grid item xs={2}>
-                    <Paper className={classes.paper}>xs=2</Paper>
+                    <PosterCard />
                 </Grid>
                 <Grid item xs={2}>
-                    <Paper className={classes.paper}>xs=2</Paper>
-                </Grid>
-                <Grid item xs={2}>
-                    <Paper className={classes.paper}>xs=3</Paper>
+                    <PosterCard />
                 </Grid>
             </Grid>
         </Container>

@@ -16,7 +16,7 @@ import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
 
 const useStyles = makeStyles(() => ({
   card: {
-    borderRadius: '1rem',
+    borderRadius: '5px',
     boxShadow: 'none',
     position: 'relative',
     minWidth: 200,
@@ -63,8 +63,8 @@ const GalaxyCard = React.memo(function GalaxyCard( { title } ) {
         <Box py={3} px={2} className={styles.content}>
           <Info useStyles={useGalaxyInfoStyles}>
             <InfoSubtitle>{title}</InfoSubtitle>
-            <InfoTitle>Buds 2019</InfoTitle>
-            <InfoCaption>Perfect for everyone</InfoCaption>
+            <InfoTitle>Nom du film</InfoTitle>
+            <InfoCaption>??</InfoCaption>
           </Info>
         </Box>
       </Card>

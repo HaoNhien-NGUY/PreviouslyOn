@@ -21,8 +21,7 @@ export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDisp
         PaperProps={{
             style: {
               transform: `translateY(${anchorEl?.offsetHeight}px)`,
-              width: anchorEl?.offsetWidth,
-              border: 'solid rgba(0, 0, 0, 0.24) 1px'
+              border: 'solid rgba(0, 0, 0, 0.24) 1px',
             },
             elevation: 1
         }}
@@ -32,7 +31,7 @@ export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDisp
       >
         <MenuItem onClick={handleClose}>Profil</MenuItem>
         <MenuItem>Mes Amis</MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
       </Menu>
     </>
   );
