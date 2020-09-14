@@ -48,8 +48,8 @@ export default function ModalLogin({ isOpen, storeDispatch, handleClose }) {
 
             if (res.status === 200) {
                 const userResp = await betaseriesAPI.getUserInfo(res.data.token);
-                const { login, avatar, locale } = userResp.data.member;
-                storeDispatch({ type: ACTIONS.LOGIN, payload: { login, access_token: res.data.token, avatar, locale } });
+                const { login, avatar, locale, id } = userResp.data.member;
+                storeDispatch({ type: ACTIONS.LOGIN, payload: { login, access_token: res.data.token, avatar, locale, id } });
                 handleClose();
                 setIsInvalid(invalids);
                 setIsLoading(false);

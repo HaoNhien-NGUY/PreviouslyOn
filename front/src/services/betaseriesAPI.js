@@ -34,6 +34,10 @@ class BetaseriesAPI {
         return network.get(`${API_URL}/members/infos`, { headers: authHeader(token) } );
     }
 
+    getUserInfoById(id) {
+        return network.get(`${API_URL}/members/infos?id=${id}`, { headers: authHeader() } );
+    }
+
     memberDestroyToken(token) {
         return network.post(`${API_URL}/members/destroy`, {}, { headers: authHeader(token) });
     }
