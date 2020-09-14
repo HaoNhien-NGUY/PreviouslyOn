@@ -1,8 +1,10 @@
 import React from 'react';
 import { Menu, MenuItem, Fade } from '@material-ui/core';
 import { ACTIONS } from '../../store/store';
+import { Link } from "react-router-dom";
 
-export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDispatch }) {
+export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDispatch, store }) {
+  // const [store, storeDispatch] = useStore();
 
   const handleClose = () => {
     setOpenMenu(false);
@@ -12,7 +14,7 @@ export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDisp
     storeDispatch({ type: ACTIONS.LOGOUT });
     handleClose();
   }
-
+  
   return (
     <>
       <Menu
@@ -29,7 +31,9 @@ export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDisp
         open={openMenu}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profil</MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link to={`/profil/${store.user.id}`}>Profil</Link>
+        </MenuItem>
         <MenuItem>Mes Amis</MenuItem>
         <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
       </Menu>

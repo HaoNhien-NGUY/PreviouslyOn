@@ -6,7 +6,6 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import ModalLogin from '../modal/modalLogin';
 import ProfileMenu from './profileMenu';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-
 import NavigationMenu from './navItems';
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +76,7 @@ export default function NavBar() {
                                         {store.user.login}
                                         <ArrowDropDownIcon style={{ marginLeft: '3px' }} />
                                     </Button>
-                                    <ProfileMenu anchorEl={anchorEl.current} openMenu={openMenu} setOpenMenu={setOpenMenu} storeDispatch={storeDispatch} />
+                                    <ProfileMenu anchorEl={anchorEl.current} openMenu={openMenu} setOpenMenu={setOpenMenu} storeDispatch={storeDispatch} store={store}/>
                                     {store.user.avatar ? <Avatar alt="profile-pic" src={store.user.avatar}></Avatar> : <Avatar>{store.user.login.charAt(0)}</Avatar>}
                                 </>)
                                 :
