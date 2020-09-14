@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, Paper } from '@material-ui/core';
 
-import PosterCard from '../card/posterCard';
+import PosterCard from '../../card/posterCard';
 
 const useStyles = makeStyles((theme) => ({
     // root: {

@@ -6,7 +6,7 @@ import { betaseriesAPI } from './services/betaseriesAPI';
 import Navbar from './components/navbar/navbar';
 import Movies from './components/cinema/movies/getAllMovies';
 import Shows from './components/cinema/shows/getAllShows';
-import Home from './components/home/home';
+import Home from './components/pages/home/home';
 
 function App() {
   const [store, dispatch] = useStore();
