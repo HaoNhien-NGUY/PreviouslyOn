@@ -41,6 +41,9 @@ const useStyles = makeStyles(() => ({
       '&:after': {
         height: '250%',
         transition: 'height 0.7s 0.2s ease-out'
+      },
+      '& $backImg': {
+        transform: 'scale(1.08)'
       }
     }
   },
@@ -50,6 +53,9 @@ const useStyles = makeStyles(() => ({
     bottom: 0,
     width: '91%',
   },
+  backImg: {
+    transition: 'transform 0.6s 0.2s',
+  }
 }));
 
 const GalaxyCard = React.memo(function GalaxyCard({ show }) {
@@ -74,8 +80,10 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
       <Card className={styles.card} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <CardMedia
           classes={mediaStyles}
+          className={styles.backImg}
           image={poster}
         />
+        {/* {console.log(styles)} */}
         <Grow in={!isHovered} {...(isHovered ? { timeout: 800 } : {})}>
           <Box py={3} px={2} className={styles.content}>
             <Info useStyles={useGalaxyInfoStyles}>
