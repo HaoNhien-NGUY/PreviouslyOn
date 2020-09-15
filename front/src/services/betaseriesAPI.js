@@ -51,7 +51,7 @@ class BetaseriesAPI {
     } 
     
     findMembers(login) {
-        return network.get(`${API_URL}/members/search?login=${login}%`, { headers: authHeader() });
+        return network.get(`${API_URL}/members/search?login=${login}`, { headers: authHeader() });
     }
 
     getShowsToDiscover() {

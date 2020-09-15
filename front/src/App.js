@@ -41,8 +41,8 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/shows" component={Shows} />
           <Route exact path="/movies" component={Movies} />
-          <Route exact path="/profil/:id" component={Profil} store={store} />
-          <Route exact path="/profil/:id/friends" component={Amis} store={store} />
+          <Route exact path="/profil/:id" component={Profil} />
+          <Route exact path="/profil/:id/friends" component={Amis} />
         </Switch>
       </Router>
     </div>
