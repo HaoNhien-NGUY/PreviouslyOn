@@ -13,6 +13,7 @@ import PosterCard from '../../card/posterCard';
 const useStyles = makeStyles((theme) => ({
     container: {
         overflowX: 'hidden',
+        marginBottom: theme.spacing(10),
     },
     title: {
         marginBottom: "15px",
@@ -31,10 +32,30 @@ const useStyles = makeStyles((theme) => ({
 export default function CenteredGrid() {
     const classes = useStyles();
     const [showsToDiscover, setShowsToDiscover] = useState([]);
+    const [moviesToDiscover, setMoviesToDiscover] = useState([]);
 
     useEffect(() => {
         Swiper.use([Pagination, Navigation]);
-        var swiper = new Swiper('.swiper-container', {
+        var swiper = new Swiper('.swiper1', {
+            slidesPerView: 1,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            spaceBetween: 10,
+            initialSlide: 0,
+            resistanceRatio: 0,
+            threshold: 35,
+            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+            breakpoints: {
+                600: { slidesPerView: 2, spaceBetween: 24, slidesPerGroup: 2 },
+                960: { slidesPerView: 3, spaceBetween: 24, slidesPerGroup: 3 },
+                1280: { slidesPerView: 4, spaceBetween: 24, slidesPerGroup: 4 },
+                1600: { slidesPerView: 6, spaceBetween: 24, slidesPerGroup: 6 },
+            }
+        });
+
+        var swiper2 = new Swiper('.swiper2', {
             slidesPerView: 1,
             pagination: {
                 el: '.swiper-pagination',
@@ -56,80 +77,72 @@ export default function CenteredGrid() {
         (async () => {
             const response = await betaseriesAPI.getShowsToDiscover();
             if (response.status === 200) {
+                // console.log(response.data.shows);
                 setShowsToDiscover(response.data.shows);
                 swiper.update();
             }
-        })()
+        })();
+
+        // console.log("lol");
+        (async () => {
+            const response = await betaseriesAPI.getMoviesToDiscover();
+            if (response.status === 200) {
+                console.log(response.data.movies);
+                // setMoviesToDiscover(response.data.shows);
+                swiper2.update();
+            }
+        })();
     }, []);
 
     return (
         <>
             <Container className={classes.container} maxWidth={'xl'}>
-                <Typography className={classes.title} variant="h3" align="left">Séries à découvrir</Typography>
-                <div className="swiper-container" >
+                <Typography className={classes.title} variant="h4" align="left">Séries à découvrir</Typography>
+                <div className="swiper-container swiper1" >
                     <div className="swiper-wrapper">
                         {
-                            showsToDiscover.length > 0 
-                            ?
-                            showsToDiscover.map(show => (
-                                <div className="swiper-slide">
-                                    <PosterCard />
-                                </div>
-                            ))
-                            :
-                            [...Array(6)].map((val, i) => (<div className="swiper-slide"><Skeleton variant="rect" width="100%" height="360px" minHeight="360px"></Skeleton></div>))
+                            showsToDiscover.length > 0
+                                ?
+                                showsToDiscover.map(show => (
+                                    <div className="swiper-slide">
+                                        <PosterCard show={show} />
+                                    </div>
+                                ))
+                                :
+                                [...Array(6)].map((val, i) => (
+                                    <div className="swiper-slide">
+                                        <Skeleton variant="rect" width="100%" height="360px" minHeight="360px"></Skeleton>
+                                    </div>))
                         }
-
-                        {/* <div className="swiper-slide">
-                            <PosterCard />
-                        </div>
-                        <div className="swiper-slide">
-                            <PosterCard />
-                        </div>
-                        <div className="swiper-slide">
-                            <PosterCard />
-                        </div>
-                        <div className="swiper-slide">
-                            <PosterCard />
-                        </div>
-                        <div className="swiper-slide">
-                            <PosterCard />
-                        </div>
-                        <div className="swiper-slide">
-                            <PosterCard />
-                        </div>
-                        <div className="swiper-slide">
-                            <PosterCard />
-                        </div>
-                        <div className="swiper-slide">
-                            <PosterCard />
-                        </div> */}
                     </div>
                     <div className="swiper-pagination"></div>
                     <div className="swiper-button-next"></div>
                     <div className="swiper-button-prev"></div>
                 </div>
-                {/* <Grid container spacing={3}>
-
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                        <PosterCard />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                        <PosterCard />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                        <PosterCard />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                        <PosterCard />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                        <PosterCard />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                        <PosterCard />
-                    </Grid>
-                </Grid> */}
+            </Container>
+            <Container className={classes.container} maxWidth={'xl'}>
+                <Typography className={classes.title} variant="h4" align="left">Films à découvrir</Typography>
+                <div className="swiper-container swiper2" >
+                    <div className="swiper-wrapper">
+                        {
+                            moviesToDiscover.length > 0
+                                ?
+                                moviesToDiscover.map(show => (
+                                    <div className="swiper-slide">
+                                        <PosterCard show={show} />
+                                    </div>
+                                ))
+                                :
+                                [...Array(6)].map((val, i) => (
+                                    <div className="swiper-slide">
+                                        <Skeleton variant="rect" width="100%" height="360px" minHeight="360px"></Skeleton>
+                                    </div>))
+                        }
+                    </div>
+                    <div className="swiper-pagination"></div>
+                    <div className="swiper-button-next"></div>
+                    <div className="swiper-button-prev"></div>
+                </div>
             </Container>
 
         </>
