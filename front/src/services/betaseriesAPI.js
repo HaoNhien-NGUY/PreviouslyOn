@@ -42,6 +42,10 @@ class BetaseriesAPI {
         return network.post(`${API_URL}/members/destroy`, {}, { headers: authHeader(token) });
     }
 
+    friendList(id, token) {
+        return network.get(`${API_URL}/friends/list?id=${id}`, { headers: authHeader(token) });
+    }    
+    
     blockFriend(id, token) {
         return network.post(`${API_URL}/friends/block`, { id }, { headers: authHeader(token) });
     }
