@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
     },
     upperCase: {
-        // textTransform: 'upperCase',
+        textTransform: 'upperCase',
     },
     large: {
         width: '100%',

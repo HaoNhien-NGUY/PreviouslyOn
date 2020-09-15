@@ -48,6 +48,10 @@ class BetaseriesAPI {
     
     blockFriend(id, token) {
         return network.post(`${API_URL}/friends/block`, { id }, { headers: authHeader(token) });
+    } 
+    
+    findMembers(login) {
+        return network.get(`${API_URL}/members/search?login=${login}%`, { headers: authHeader() });
     }
 
     getShowsToDiscover() {
