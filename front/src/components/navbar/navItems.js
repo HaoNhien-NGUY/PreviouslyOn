@@ -9,7 +9,7 @@ export const FloatNavigationMenuStyle = React.memo(
 
     return (
       <>
-        <NavMenu gutter={1} useStyles={useFloatNavigationMenuStyles} style={{ fontSize: '1.4rem' }}>
+        <NavMenu gutter={1} useStyles={useFloatNavigationMenuStyles} style={{ fontSize: '1.5rem' }}>
           <NavItem as={Link} to="/"  active={location.pathname === '/'}>Accueil</NavItem>
           <NavItem as={Link} to="/shows" active={location.pathname === '/shows'}>Séries</NavItem>
           <NavItem as={Link} to="/movies" active={location.pathname === '/movies'}>Films</NavItem>

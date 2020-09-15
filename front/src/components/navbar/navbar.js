@@ -76,14 +76,16 @@ export default function NavBar() {
                                         aria-controls="simple-menu"
                                         aria-haspopup="true"
                                         onClick={() => setOpenMenu(true)}
-                                        style={{ marginRight: '5px', color: 'rgba(0, 0, 0, 0.54)', textTransform: 'none', fontSize: '1.1rem' }}
+                                        style={{ marginRight: '5px', color: 'rgba(0, 0, 0, 0.54)', textTransform: 'none', fontSize: '1.2rem' }}
                                     >
                                         {store.user.login}
                                         <ArrowDropDownIcon style={{ marginLeft: '3px' }} />
                                     </Button>
                                     <ProfileMenu anchorEl={anchorEl.current} openMenu={openMenu} setOpenMenu={setOpenMenu} storeDispatch={storeDispatch} store={store} />
-                                    <Link to={`/profil/${store.user.id}`}>
-                                        {store.user.avatar ? <Avatar variant="rounded" alt="profile-pic" src={store.user.avatar}></Avatar> : <Avatar>{store.user.login.charAt(0)}</Avatar>}
+                                    <Link to={`/profil/${store.user.id}`} style={{ margin: 'auto 0' }}>
+                                        {store.user.avatar
+                                            ? <Avatar variant="rounded" alt="profile-pic" src={store.user.avatar}></Avatar>
+                                            : <Avatar variant="rounded" alt="profile-pic">{store.user.login.charAt(0)}</Avatar>}
                                     </Link>
                                 </>)
                                 :

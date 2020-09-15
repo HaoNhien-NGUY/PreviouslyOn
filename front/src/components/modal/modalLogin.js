@@ -113,7 +113,7 @@ export default function ModalLogin({ isOpen, storeDispatch, handleClose }) {
                                     color="primary"
                                     style={{ margin: '35px auto 10px auto', display: 'block' }}
                                 >
-                                    Submit
+                                    Envoyer
                                 </Button>
 
                             }
