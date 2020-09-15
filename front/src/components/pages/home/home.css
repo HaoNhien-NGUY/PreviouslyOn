@@ -31,4 +31,9 @@
 
 .swiper-button-prev, .swiper-button-next {
     color: white !important;
+    transition: color 0.3s;
+}
+
+.swiper-button-prev:hover, .swiper-button-next:hover {
+    color: #5f6dbb !important;
 }

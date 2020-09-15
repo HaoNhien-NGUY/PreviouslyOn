@@ -29,6 +29,26 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const swiperSettings = {
+    slidesPerView: 1,
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },
+    spaceBetween: 10,
+    initialSlide: 0,
+    resistanceRatio: 0,
+    threshold: 40,
+    longSwipesRatio: 0.1,
+    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    breakpoints: {
+        600: { slidesPerView: 2, spaceBetween: 24, slidesPerGroup: 2 },
+        960: { slidesPerView: 3, spaceBetween: 24, slidesPerGroup: 3 },
+        1280: { slidesPerView: 4, spaceBetween: 24, slidesPerGroup: 4 },
+        1600: { slidesPerView: 6, spaceBetween: 24, slidesPerGroup: 6 },
+    }
+}
+
 export default function CenteredGrid() {
     const classes = useStyles();
     const [showsToDiscover, setShowsToDiscover] = useState([]);
@@ -36,43 +56,8 @@ export default function CenteredGrid() {
 
     useEffect(() => {
         Swiper.use([Pagination, Navigation]);
-        var swiper = new Swiper('.swiper1', {
-            slidesPerView: 1,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            spaceBetween: 10,
-            initialSlide: 0,
-            resistanceRatio: 0,
-            threshold: 35,
-            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-            breakpoints: {
-                600: { slidesPerView: 2, spaceBetween: 24, slidesPerGroup: 2 },
-                960: { slidesPerView: 3, spaceBetween: 24, slidesPerGroup: 3 },
-                1280: { slidesPerView: 4, spaceBetween: 24, slidesPerGroup: 4 },
-                1600: { slidesPerView: 6, spaceBetween: 24, slidesPerGroup: 6 },
-            }
-        });
-
-        var swiper2 = new Swiper('.swiper2', {
-            slidesPerView: 1,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            spaceBetween: 10,
-            initialSlide: 0,
-            resistanceRatio: 0,
-            threshold: 35,
-            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-            breakpoints: {
-                600: { slidesPerView: 2, spaceBetween: 24, slidesPerGroup: 2 },
-                960: { slidesPerView: 3, spaceBetween: 24, slidesPerGroup: 3 },
-                1280: { slidesPerView: 4, spaceBetween: 24, slidesPerGroup: 4 },
-                1600: { slidesPerView: 6, spaceBetween: 24, slidesPerGroup: 6 },
-            }
-        });
+        var swiper = new Swiper('.swiper1', swiperSettings);
+        var swiper2 = new Swiper('.swiper2', swiperSettings);
 
         (async () => {
             const response = await betaseriesAPI.getShowsToDiscover();
@@ -83,11 +68,12 @@ export default function CenteredGrid() {
             }
         })();
 
-        // console.log("lol");
         (async () => {
             const response = await betaseriesAPI.getMoviesToDiscover();
             if (response.status === 200) {
-                console.log(response.data.movies);
+                console.log(response.data.movies[0].id);
+                const movie = await betaseriesAPI.getMovieDetails(response.data.movies[0].id);
+                console.log(movie);
                 // setMoviesToDiscover(response.data.shows);
                 swiper2.update();
             }
@@ -104,14 +90,14 @@ export default function CenteredGrid() {
                             showsToDiscover.length > 0
                                 ?
                                 showsToDiscover.map(show => (
-                                    <div className="swiper-slide">
+                                    <div key={show.id} className="swiper-slide">
                                         <PosterCard show={show} />
                                     </div>
                                 ))
                                 :
                                 [...Array(6)].map((val, i) => (
-                                    <div className="swiper-slide">
-                                        <Skeleton variant="rect" width="100%" height="360px" minHeight="360px"></Skeleton>
+                                    <div key={i} className="swiper-slide">
+                                        <Skeleton variant="rect" width="100%" height="360px"></Skeleton>
                                     </div>))
                         }
                     </div>
@@ -127,15 +113,15 @@ export default function CenteredGrid() {
                         {
                             moviesToDiscover.length > 0
                                 ?
-                                moviesToDiscover.map(show => (
-                                    <div className="swiper-slide">
-                                        <PosterCard show={show} />
+                                moviesToDiscover.map(movie => (
+                                    <div key={movie.id} className="swiper-slide">
+                                        <PosterCard movie={movie} />
                                     </div>
                                 ))
                                 :
                                 [...Array(6)].map((val, i) => (
-                                    <div className="swiper-slide">
-                                        <Skeleton variant="rect" width="100%" height="360px" minHeight="360px"></Skeleton>
+                                    <div key={i} className="swiper-slide">
+                                        <Skeleton variant="rect" width="100%" height="360px"></Skeleton>
                                     </div>))
                         }
                     </div>

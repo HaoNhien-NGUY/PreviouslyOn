@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import GoogleFontLoader from 'react-google-font-loader';
 import NoSsr from '@material-ui/core/NoSsr';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
-import { Fade, Grow, Collapse } from '@material-ui/core';
 import CardMedia from '@material-ui/core/CardMedia';
 import {
   Info,
@@ -16,11 +15,9 @@ import { useGalaxyInfoStyles } from '@mui-treasury/styles/info/galaxy';
 import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
 
 import { Rating } from '@material-ui/lab';
-import { useStore } from '../../store/store';
 
 const useStyles = makeStyles(() => ({
   card: {
-    cursor: 'pointer',
     borderRadius: '5px',
     boxShadow: 'none',
     position: 'relative',
@@ -35,14 +32,7 @@ const useStyles = makeStyles(() => ({
       bottom: 0,
       zIndex: 1,
       background: 'linear-gradient(to top, #000, rgba(0,0,0,0))',
-      transition: 'height 0.2s ease-in'
     },
-    '&:hover': {
-      '&:after': {
-        height: '250%',
-        transition: 'height 0.7s 0.2s ease-out'
-      }
-    }
   },
   content: {
     position: 'absolute',
@@ -52,14 +42,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const GalaxyCard = React.memo(function GalaxyCard({ show }) {
+const GalaxyCard = React.memo(function GalaxyCard({ movie }) {
   const mediaStyles = useCoverCardMediaStyles({ bgPosition: 'top' });
   const styles = useStyles();
-  const [isHovered, setIsHovered] = useState(false);
 
-  const { title, images: { poster }, episodes, seasons, notes } = show;
-
-  // console.log(poster);
+  const { title, images: { poster }, episodes, seasons, notes } = movie;
 
   return (
     <>
@@ -71,29 +58,19 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
           ]}
         />
       </NoSsr>
-      <Card className={styles.card} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      <Card className={styles.card}>
         <CardMedia
           classes={mediaStyles}
           image={poster}
         />
-        <Grow in={!isHovered} {...(isHovered ? { timeout: 800 } : {})}>
-          <Box py={3} px={2} className={styles.content}>
-            <Info useStyles={useGalaxyInfoStyles}>
-              <InfoTitle>{title}</InfoTitle>
-              {/* <InfoSubtitle>{seasons} saisons</InfoSubtitle> */}
-              <InfoCaption>{seasons} saisons</InfoCaption>
-              {/* <Rating name="read-only" precision={0.5} size="small" value={notes.mean} readOnly /> */}
-            </Info>
-          </Box>
-        </Grow>
-        {/* <Grow in={isHovered}>
-          <Box py={3} px={2} className={styles.content}>
-            <Info useStyles={useGalaxyInfoStyles}>
-              <InfoTitle>"pdlaspokdsapokdsapodk"</InfoTitle>
-              <InfoCaption>{seasons} saisons</InfoCaption>
-            </Info>
-          </Box>
-        </Grow> */}
+        <Box py={3} px={2} className={styles.content}>
+          <Info useStyles={useGalaxyInfoStyles}>
+            <InfoTitle>{title}</InfoTitle>
+            {/* <InfoSubtitle>{seasons} saisons</InfoSubtitle> */}
+            <InfoCaption>{seasons} saisons</InfoCaption>
+            {/* <Rating name="read-only" precision={0.5} size="small" value={notes.mean} readOnly /> */}
+          </Info>
+        </Box>
       </Card>
     </>
   );
