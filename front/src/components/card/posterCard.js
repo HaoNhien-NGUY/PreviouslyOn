@@ -14,6 +14,8 @@ import {
 import { useGalaxyInfoStyles } from '@mui-treasury/styles/info/galaxy';
 import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
 
+import { Rating } from '@material-ui/lab';
+
 const useStyles = makeStyles(() => ({
   card: {
     borderRadius: '5px',
@@ -36,13 +38,18 @@ const useStyles = makeStyles(() => ({
     position: 'absolute',
     zIndex: 2,
     bottom: 0,
-    width: '100%',
+    width: '91%',
   },
 }));
 
-const GalaxyCard = React.memo(function GalaxyCard( { title } ) {
+const GalaxyCard = React.memo(function GalaxyCard({ show }) {
   const mediaStyles = useCoverCardMediaStyles({ bgPosition: 'top' });
   const styles = useStyles();
+
+  const { title, images: { poster }, episodes, seasons, notes } = show;
+
+  // console.log(poster);
+
   return (
     <>
       <NoSsr>
@@ -56,15 +63,14 @@ const GalaxyCard = React.memo(function GalaxyCard( { title } ) {
       <Card className={styles.card}>
         <CardMedia
           classes={mediaStyles}
-          image={
-            'https://image-us.samsung.com/SamsungUS/home/audio/galaxy-buds/MB-04-JustWhatYouWantV4.jpg?$cm-g-fb-full-bleed-img-mobile-jpg$'
-          }
+          image={poster}
         />
         <Box py={3} px={2} className={styles.content}>
           <Info useStyles={useGalaxyInfoStyles}>
-            <InfoSubtitle>{title}</InfoSubtitle>
-            <InfoTitle>Nom du film</InfoTitle>
-            <InfoCaption>??</InfoCaption>
+            <InfoTitle>{title}</InfoTitle>
+            {/* <InfoSubtitle>{seasons} saisons</InfoSubtitle> */}
+            <InfoCaption>{seasons} saisons</InfoCaption>
+            {/* <Rating name="read-only" precision={0.5} size="small" value={notes.mean} readOnly /> */}
           </Info>
         </Box>
       </Card>

@@ -55,7 +55,11 @@ class BetaseriesAPI {
     }
 
     getShowsToDiscover() {
-        return network.get(`${API_URL}/shows/discover?limit=25`, { headers: authHeader() });
+        return network.get(`${API_URL}/shows/discover?limit=30`, { headers: authHeader() });
+    }
+
+    getMoviesToDiscover() {
+        return network.get(`${API_URL}/movies/discover`, { params: {limit: 30, type: 'popular'}, headers: authHeader() });
     }
 }
 
