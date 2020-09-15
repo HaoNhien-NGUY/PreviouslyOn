@@ -70,7 +70,7 @@ export default function Amis() {
         }).catch(err => {
             console.log(err);
         });
-    }, []);
+    }, [idUser]);
 
     useEffect(() => {
         if (input.length >= 2) {

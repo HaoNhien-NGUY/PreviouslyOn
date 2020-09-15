@@ -45,7 +45,7 @@ export default function Profil() {
         }).catch(err => {
             console.log(err);
         });
-    }, []);
+    }, [idUser]);
 
     function TimeToWatching(time) {
         var hours = Math.floor(time / 60);

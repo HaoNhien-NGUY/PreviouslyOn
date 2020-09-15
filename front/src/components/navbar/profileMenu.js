@@ -15,9 +15,9 @@ export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDisp
     handleClose();
   }
 
-  const handleClick = () => {
+  const handleClick = (path) => {
     handleClose();
-    history.push(`/profil/${store.user.id}`);
+    history.push(path);
   }
 
   return (
@@ -38,7 +38,7 @@ export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDisp
         onClose={handleClose}
       >
         <MenuItem onClick={() =>  handleClick(`/profil/${store.user.id}`) }>Profil</MenuItem>
-        <MenuItem onClick={() =>  handleClick(`/friends/${store.user.id}`) }>Mes amis</MenuItem>
+        <MenuItem onClick={() =>  handleClick(`/profil/${store.user.id}/friends`) }>Mes amis</MenuItem>
         <MenuItem onClick={() =>  handleClick(`/friends/${store.user.id}`) }>Paramètres</MenuItem>
         <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
       </Menu>
