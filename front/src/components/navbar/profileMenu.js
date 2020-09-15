@@ -1,9 +1,11 @@
 import React from 'react';
 import { Menu, MenuItem, Fade } from '@material-ui/core';
 import { ACTIONS } from '../../store/store';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDispatch, store }) {
+  const history = useHistory();
+
   const handleClose = () => {
     setOpenMenu(false);
   };
@@ -13,11 +15,17 @@ export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDisp
     handleClose();
   }
 
+  const handleClick = () => {
+    handleClose();
+    history.push(`/profil/${store.user.id}`);
+  }
+
   return (
     <>
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
+        keepMounted
         PaperProps={{
           style: {
             transform: `translateY(${anchorEl?.offsetHeight}px)`,
@@ -29,15 +37,9 @@ export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDisp
         open={openMenu}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
-          <Link to={`/profil/${store.user.id}`} style={{ color: 'inherit', textDecoration: 'inherit' }}>Profil</Link>
-        </MenuItem>
-        <MenuItem>
-          <Link to={`/friends/${store.user.id}`} style={{ color: 'inherit', textDecoration: 'inherit' }}>Mes amis</Link>
-        </MenuItem>
-        <MenuItem>
-          <Link to={`/friends/${store.user.id}`} style={{ color: 'inherit', textDecoration: 'inherit' }}>Paramètres</Link>
-        </MenuItem>
+        <MenuItem onClick={() =>  handleClick(`/profil/${store.user.id}`) }>Profil</MenuItem>
+        <MenuItem onClick={() =>  handleClick(`/friends/${store.user.id}`) }>Mes amis</MenuItem>
+        <MenuItem onClick={() =>  handleClick(`/friends/${store.user.id}`) }>Paramètres</MenuItem>
         <MenuItem onClick={handleLogout}>Se déconnecter</MenuItem>
       </Menu>
     </>
