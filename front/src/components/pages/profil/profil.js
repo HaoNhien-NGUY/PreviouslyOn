@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useRouteMatch, Link, useLocation } from "react-router-dom";
-import { Container, Grid, Paper, Avatar } from '@material-ui/core';
+import { Container, Grid, Paper, Avatar, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { betaseriesAPI } from '../../../services/betaseriesAPI';
+import { useStore } from '../../../store/store';
+import { authService } from '../../../services/authService';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,19 +35,36 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profil() {
     const [userInfo, setUserInfo] = useState(null);
+    const [isNotFriend, setIsNotFriend] = useState(true);
     const classes = useStyles();
+    const [store, storeDispatch] = useStore();
+    const access_token = authService.getToken();
 
     let idUser = useRouteMatch("/profil/:id").params.id;
     let URL = useLocation().pathname;
 
     useEffect(() => {
         betaseriesAPI.getUserInfoById(idUser).then(res => {
-            console.log(res);
             setUserInfo(res.data.member);
         }).catch(err => {
             console.log(err);
         });
     }, [idUser]);
+
+    useEffect(() => {
+        if (store.user) {
+            betaseriesAPI.friendList(store.user.id, access_token).then(res => {
+                (res.data.users).map(e => {
+                    console.log(e);
+                    if (e.id == idUser) {
+                        setIsNotFriend(false);
+                    }
+                });
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+    }, [store])
 
     function TimeToWatching(time) {
         var hours = Math.floor(time / 60);
@@ -71,6 +90,11 @@ export default function Profil() {
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
                                 Resumé de <span className={classes.upperCase}>{userInfo.login}</span>
+                                {store.user.id != userInfo.id && isNotFriend &&
+                                    <Button variant="contained" color="primary">
+                                        Ajouter
+                                    </Button>
+                                }
                             </Paper>
                         </Grid>
                         <Grid item xs={2}>

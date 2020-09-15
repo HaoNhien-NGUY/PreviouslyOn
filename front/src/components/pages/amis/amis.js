@@ -74,7 +74,7 @@ export default function Amis() {
 
     useEffect(() => {
         if (input.length >= 2) {
-            betaseriesAPI.findMembers(input).then(res => {
+            betaseriesAPI.findMembers(input+"%").then(res => {
                 setAllMembers(
                     res.data.users
                 );
