@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, Link, useLocation } from "react-router-dom";
 import { Container, Grid, Paper, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { betaseriesAPI } from '../../../services/betaseriesAPI';
@@ -20,6 +20,15 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         height: '100%',
     },
+    timeP: {
+        fontSize: '12px',
+    },
+    mt38: {
+        marginTop: '38px',
+    },
+    mt18: {
+        marginTop: '18px',
+    }
 }));
 
 export default function Profil() {
@@ -27,6 +36,7 @@ export default function Profil() {
     const classes = useStyles();
 
     let idUser = useRouteMatch("/profil/:id").params.id;
+    let URL = useLocation().pathname;
 
     useEffect(() => {
         betaseriesAPI.getUserInfoById(idUser).then(res => {
@@ -36,6 +46,22 @@ export default function Profil() {
             console.log(err);
         });
     }, []);
+
+    function TimeToWatching(time) {
+        var hours = Math.floor(time / 60);
+        var minutes = time % 60;
+
+        if (hours > 24) {
+            var day = 0;
+            while (hours > 24) {
+                hours = hours - 24;
+                day = day + 1;
+            }
+            return `${day} jours ${hours} heures et ${minutes} minutes`;
+        } else {
+            return `${hours} heures et ${minutes} minutes`;
+        }
+    }
 
     return (
         <>
@@ -47,35 +73,44 @@ export default function Profil() {
                                 Resumé de <span className={classes.upperCase}>{userInfo.login}</span>
                             </Paper>
                         </Grid>
-                        <Grid item xs={4}>
-                            {/* <Paper className={classes.paper}>xs=6</Paper> */}
+                        <Grid item xs={2}>
                             <Paper className={classes.paper}>
-                                <Avatar variant="rounded" alt="profile-pic" src={userInfo.avatar} className={classes.large}>
-
-                                </Avatar>
-                                {/* <img src={userInfo.avatar} alt="Avatar" /> */}
+                                <Avatar variant="rounded" alt="profile-pic" src={userInfo.avatar} className={classes.large} />
                             </Paper>
                         </Grid>
                         <Grid item xs={2}>
                             <Paper className={classes.paper}>
                                 <span>{userInfo.stats.episodes}<br />ÉPISODE</span>
                             </Paper>
+                            <Paper className={`${classes.paper} ${classes.mt38}`}>
+                                <span>{userInfo.stats.shows}<br />SÉRIES</span>
+                            </Paper>
                         </Grid>
                         <Grid item xs={2}>
                             <Paper className={classes.paper}>
                                 <span>{userInfo.xp}<br />XP</span>
                             </Paper>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Paper className={classes.paper}>
+                            <Paper className={`${classes.paper} ${classes.mt38}`}>
                                 <span>{userInfo.stats.badges}<br />BADGES</span>
                             </Paper>
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={6}>
+                            <Paper className={classes.paper}>
+                                <span>Temps passé devant la télé:</span><br />
+                                <span>{TimeToWatching(userInfo.stats.time_on_tv)}</span><br />
+                                <span className={classes.timeP}>Encore {TimeToWatching(userInfo.stats.time_to_spend)}</span>
+                            </Paper>
+                            <Paper className={`${classes.paper} ${classes.mt18}`}>
+                                <span>{userInfo.stats.friends}<br />
+                                    <Link to={`${URL}/friends`}>AMIS</Link>
+                                </span>
+                            </Paper>
+                        </Grid>
+                        {/* <Grid item xs={2}>
                             <Paper className={classes.paper}>
                                 <span>{userInfo.stats.friends}<br />AMIS</span>
                             </Paper>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </Container>
             }

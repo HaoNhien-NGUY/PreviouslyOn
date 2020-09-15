@@ -9,6 +9,7 @@ import Movies from './components/cinema/movies/getAllMovies';
 import Shows from './components/cinema/shows/getAllShows';
 import Home from './components/pages/home/home';
 import Profil from './components/pages/profil/profil';
+import Amis from './components/pages/amis/amis';
 
 function App() {
   const [store, dispatch] = useStore();
@@ -41,6 +42,7 @@ function App() {
           <Route exact path="/shows" component={Shows} />
           <Route exact path="/movies" component={Movies} />
           <Route exact path="/profil/:id" component={Profil} store={store} />
+          <Route exact path="/profil/:id/friends" component={Amis} store={store} />
         </Switch>
       </Router>
     </div>
