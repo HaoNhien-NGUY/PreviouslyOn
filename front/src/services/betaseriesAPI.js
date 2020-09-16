@@ -42,13 +42,29 @@ class BetaseriesAPI {
         return network.post(`${API_URL}/members/destroy`, {}, { headers: authHeader(token) });
     }
 
-    friendList(id, token) {
-        return network.get(`${API_URL}/friends/list?id=${id}`, { headers: authHeader(token) });
-    }    
+    friendList(id, token, blocked = false) {
+        return network.get(`${API_URL}/friends/list`, { params: { id , blocked}, headers: authHeader(token) });
+    }
+
+    friendListBlocked(token, blocked = false) {
+        return network.get(`${API_URL}/friends/list`, { params: { blocked}, headers: authHeader(token) });
+    }
     
     blockFriend(id, token) {
         return network.post(`${API_URL}/friends/block`, { id }, { headers: authHeader(token) });
-    } 
+    }
+    
+    deblockFriend(id, token) {
+        return network.delete(`${API_URL}/friends/block`, { params: { id }, headers: authHeader(token) });
+    }
+
+    addFriend(id, token) {
+        return network.post(`${API_URL}/friends/friend`, { id }, { headers: authHeader(token) });
+    }
+    
+    deleteFriend(id, token) {
+        return network.delete(`${API_URL}/friends/friend`, { params: { id }, headers: authHeader(token) });
+    }
     
     findMembers(login) {
         return network.get(`${API_URL}/members/search?login=${login}`, { headers: authHeader() });
