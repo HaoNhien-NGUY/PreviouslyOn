@@ -65,7 +65,7 @@ export default function NavBar() {
                         {store.user_loading ?
                             (<>
                                 <Skeleton variant="text" width="13%" style={{ marginRight: '10px' }}></Skeleton>
-                                <Skeleton variant="rect" width={40} height={40}></Skeleton>
+                                <Skeleton variant="circle" width={40} height={40}></Skeleton>
                             </>)
                             :
                             (store.user
@@ -84,8 +84,8 @@ export default function NavBar() {
                                     <ProfileMenu anchorEl={anchorEl.current} openMenu={openMenu} setOpenMenu={setOpenMenu} storeDispatch={storeDispatch} store={store} />
                                     <Link to={`/profil/${store.user.id}`} style={{ margin: 'auto 0' }}>
                                         {store.user.avatar
-                                            ? <Avatar variant="rounded" alt="profile-pic" src={store.user.avatar}></Avatar>
-                                            : <Avatar variant="rounded" alt="profile-pic">{store.user.login.charAt(0)}</Avatar>}
+                                            ? <Avatar alt="profile-pic" src={store.user.avatar}></Avatar>
+                                            : <Avatar alt="profile-pic">{store.user.login.charAt(0)}</Avatar>}
                                     </Link>
                                 </>)
                                 :

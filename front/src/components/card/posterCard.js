@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useStore } from '../../store/store';
+import { betaseriesAPI } from '../../services/betaseriesAPI';
 import GoogleFontLoader from 'react-google-font-loader';
 import NoSsr from '@material-ui/core/NoSsr';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
-import { Fade, Grow, Collapse } from '@material-ui/core';
+import { Grow } from '@material-ui/core';
 import CardMedia from '@material-ui/core/CardMedia';
 import {
   Info,
@@ -15,8 +17,9 @@ import {
 import { useGalaxyInfoStyles } from '@mui-treasury/styles/info/galaxy';
 import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
 
-import { Rating } from '@material-ui/lab';
-import { useStore } from '../../store/store';
+// import { Rating } from '@material-ui/lab';
+
+import CardButtons from './cardButtons';
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -39,11 +42,13 @@ const useStyles = makeStyles(() => ({
     },
     '&:hover': {
       '&:after': {
-        height: '250%',
-        transition: 'height 0.7s 0.2s ease-out'
+        height: '200%',
+        background: '000000bd',
+        transition: 'height 0.7s 0.1s ease-out'
       },
       '& $backImg': {
-        transform: 'scale(1.08)'
+        transform: 'scale(1.06)',
+        transition: 'transform 0.5s 0.1s',
       }
     }
   },
@@ -54,19 +59,33 @@ const useStyles = makeStyles(() => ({
     width: '91%',
   },
   backImg: {
-    transition: 'transform 0.6s 0.2s',
+    transition: 'transform 0.4s',
   }
 }));
 
-const GalaxyCard = React.memo(function GalaxyCard({ show }) {
+const GalaxyCard = React.memo(function GalaxyCard({ show, addShow }) {
+  const [store, dispatch] = useStore();
   const mediaStyles = useCoverCardMediaStyles({ bgPosition: 'top' });
   const styles = useStyles();
   const [isHovered, setIsHovered] = useState(false);
+  const [inUser, setInUser] = useState(false);
 
-  const { title, images: { poster }, episodes, seasons, notes } = show;
+  const { title, images: { poster }, seasons, id } = show;
+  // console.log(show);
+  const handleAddShow = async () => {
+    const response = await betaseriesAPI.addShowToUser(id, store.access_token);
+    if (response.status === 200) {
+      setInUser(true);
+    }
+  }
 
-  // console.log(poster);
-
+  const handleRemoveShow = async () => {
+    const response = await betaseriesAPI.removeShowToUser(id, store.access_token);
+    if (response.status === 200) {
+      setInUser(false);
+    }
+  }
+  
   return (
     <>
       <NoSsr>
@@ -83,8 +102,7 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
           className={styles.backImg}
           image={poster}
         />
-        {/* {console.log(styles)} */}
-        <Grow in={!isHovered} {...(isHovered ? { timeout: 800 } : {})}>
+        <Grow in={!isHovered} {...(isHovered ? { timeout: 800 } : { timeout: 500 })}>
           <Box py={3} px={2} className={styles.content}>
             <Info useStyles={useGalaxyInfoStyles}>
               <InfoTitle>{title}</InfoTitle>
@@ -94,14 +112,16 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
             </Info>
           </Box>
         </Grow>
-        {/* <Grow in={isHovered}>
+
+        <Grow in={isHovered} {...(isHovered ? { timeout: 800 } : { timeout: 500 })}>
           <Box py={3} px={2} className={styles.content}>
+            <CardButtons handleAddShow={handleAddShow} handleRemoveShow={handleRemoveShow} inUser={inUser}/>
             <Info useStyles={useGalaxyInfoStyles}>
-              <InfoTitle>"pdlaspokdsapokdsapodk"</InfoTitle>
-              <InfoCaption>{seasons} saisons</InfoCaption>
+              {/* <InfoTitle>"pdlaspokdsapokdsapodk"</InfoTitle> */}
+              {/* <InfoCaption>{seasons} saisons</InfoCaption> */}
             </Info>
           </Box>
-        </Grow> */}
+        </Grow>
       </Card>
     </>
   );
