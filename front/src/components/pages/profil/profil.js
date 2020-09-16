@@ -30,15 +30,21 @@ const useStyles = makeStyles((theme) => ({
     },
     mt18: {
         marginTop: '18px',
-    }
+    },
+    suivis: {
+        width: '50%',
+        float: 'left',
+    },
 }));
 
 export default function Profil() {
-    const [userInfo, setUserInfo] = useState(null);
-    const [isNotFriend, setIsNotFriend] = useState(true);
     const classes = useStyles();
-    const [store, storeDispatch] = useStore();
     const access_token = authService.getToken();
+    const [store, storeDispatch] = useStore();
+    const [userInfo, setUserInfo] = useState(null);
+    const [isFriend, setIsFriend] = useState(true);
+    const [friendsBloqued, setFriendsBloqued] = useState(null);
+    const [userFriends, setUserFriends] = useState(null);
 
     let idUser = useRouteMatch("/profil/:id").params.id;
     let URL = useLocation().pathname;
@@ -49,22 +55,37 @@ export default function Profil() {
         }).catch(err => {
             console.log(err);
         });
+        setIsFriend(true);
+
+        betaseriesAPI.friendList(idUser, access_token).then(res => {
+            setUserFriends(res.data.users);
+        }).catch(err => {
+            console.log(err);
+        });
     }, [idUser]);
 
     useEffect(() => {
         if (store.user) {
             betaseriesAPI.friendList(store.user.id, access_token).then(res => {
-                (res.data.users).map(e => {
-                    console.log(e);
-                    if (e.id == idUser) {
-                        setIsNotFriend(false);
-                    }
-                });
+                const found = res.data.users.find(element => element.id == idUser);
+                if (found !== undefined) {
+                    setIsFriend(false);
+                }
             }).catch(err => {
                 console.log(err);
             });
+
+            listeBlockedFriends();
         }
-    }, [store])
+    }, [store]);
+
+    function listeBlockedFriends() {
+        betaseriesAPI.friendListBlocked(access_token, true).then(res => {
+            setFriendsBloqued(res.data.users);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 
     function TimeToWatching(time) {
         var hours = Math.floor(time / 60);
@@ -82,6 +103,40 @@ export default function Profil() {
         }
     }
 
+    const handleClickAdd = () => {
+        betaseriesAPI.addFriend(userInfo.id, access_token).then(res => {
+            setIsFriend(false);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    const handleClickDelete = () => {
+        betaseriesAPI.deleteFriend(userInfo.id, access_token).then(res => {
+            setIsFriend(true);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    const handleClickBlocked = () => {
+        betaseriesAPI.blockFriend(userInfo.id, access_token).then(res => {
+            listeBlockedFriends();
+            setIsFriend(true);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+    
+    const handleClickDeblocked = () => {
+        betaseriesAPI.deblockFriend(userInfo.id, access_token).then(res => {
+            console.log(res);
+            listeBlockedFriends();
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
     return (
         <>
             { userInfo !== null &&
@@ -90,10 +145,25 @@ export default function Profil() {
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
                                 Resumé de <span className={classes.upperCase}>{userInfo.login}</span>
-                                {store.user.id != userInfo.id && isNotFriend &&
-                                    <Button variant="contained" color="primary">
-                                        Ajouter
-                                    </Button>
+                                {store.user && store.user.id != userInfo.id &&
+                                    (isFriend ?
+                                        friendsBloqued && userInfo.id && friendsBloqued.find(element => element.id == userInfo.id) ?
+                                            <Button variant="contained" color="primary" onClick={handleClickDeblocked} >
+                                                Débloquer
+                                            </Button>
+                                            :
+                                            <Button variant="contained" color="primary" onClick={handleClickAdd}>
+                                                Suivre
+                                            </Button>
+                                        :
+                                        <>
+                                            <Button variant="contained" onClick={handleClickBlocked}>
+                                                Bloquer
+                                            </Button>
+                                            <Button variant="contained" color="secondary" onClick={handleClickDelete}>
+                                                Supprimer
+                                            </Button>
+                                        </>)
                                 }
                             </Paper>
                         </Grid>
@@ -125,16 +195,34 @@ export default function Profil() {
                                 <span className={classes.timeP}>Encore {TimeToWatching(userInfo.stats.time_to_spend)}</span>
                             </Paper>
                             <Paper className={`${classes.paper} ${classes.mt18}`}>
-                                <span>{userInfo.stats.friends}<br />
-                                    <Link to={`${URL}/friends`}>AMIS</Link>
+                                <span>{userFriends && userFriends.length}<br />
+                                    <Link to={`${URL}/friends`}>SUIVIS</Link>
                                 </span>
                             </Paper>
                         </Grid>
-                        {/* <Grid item xs={2}>
-                            <Paper className={classes.paper}>
-                                <span>{userInfo.stats.friends}<br />AMIS</span>
-                            </Paper>
-                        </Grid> */}
+                        {store.user && store.user.id == userInfo.id &&
+                            <Grid item xs={12}>
+                                <Paper className={classes.paper}>
+                                    <span>
+                                        Personnes Bloquer:
+                                    <br />
+                                        {friendsBloqued && friendsBloqued.length > 0 ?
+                                            friendsBloqued.map((e) => {
+                                                return (
+                                                    <Paper key={e.id} className={`${classes.paper} ${classes.mt18}`}>
+                                                        <Link to={`/profil/${e.id}`} ><p>{e.login}</p></Link>
+                                                    </Paper>
+                                                )
+                                            })
+                                            :
+                                            <Paper className={`${classes.paper} ${classes.mt18}`}>
+                                                <p>Aucun amis bloqué pour le moment !</p>    
+                                            </Paper>
+                                        }
+                                    </span>
+                                </Paper>
+                            </Grid>
+                        }
                     </Grid>
                 </Container>
             }

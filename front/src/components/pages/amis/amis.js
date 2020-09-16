@@ -45,14 +45,14 @@ export default function Amis() {
     const history = useHistory();
     const classes = useStyles();
     const access_token = authService.getToken();
+    const [allMembers, setAllMembers] = useState([]);
+    const [value, setValue] = useState(allMembers[0]);
     const [userInfo, setUserInfo] = useState(null);
     const [userFriends, setUserFriends] = useState(null);
-    let idUser = useRouteMatch("/profil/:id/friends").params.id;
     const [open, setOpen] = useState(false);
     const [input, setInput] = useState("");
-    const [allMembers, setAllMembers] = useState([]);
     const loading = open && allMembers.length === 0;
-    const [value, setValue] = useState(allMembers[0]);
+    let idUser = useRouteMatch("/profil/:id/friends").params.id;
 
     const handleChange = (e) => {
         setInput(e.target.value);
@@ -86,10 +86,11 @@ export default function Amis() {
     
     useEffect(() => {
         if (value) {
-            // return <Redirect to={`/profil/${value.id}`} />;
             history.push(`/profil/${value.id}`);
         }
     }, [value]);
+    
+    // console.log(userInfo, userFriends);
 
     return (
         <>
@@ -98,7 +99,7 @@ export default function Amis() {
                     <Grid container spacing={4}>
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
-                                Amis de <span className={classes.upperCase}>{userInfo.login}</span>
+                                Membres suivis par <span className={classes.upperCase}>{userInfo.login}</span>
                             </Paper>
                         </Grid>
                         <Grid item xs={3}>
@@ -140,8 +141,9 @@ export default function Amis() {
                         </Grid>
                         <Grid item xs={9}>
                             <Paper className={classes.paper}>
-                                <p className={classes.textLeft}>List d'amis
-                                    <span className={classes.floatRight}>Nombre d'amis : <span className={classes.upperCase}>{userInfo.stats.friends}</span></span>
+                                <p className={classes.textLeft}>
+                                    <span>N°: <span className={classes.upperCase}>{userInfo.stats.friends}</span></span>
+                                    {/* List des folowing */}
                                 </p>
                                 {userFriends && userFriends.map(e => {
                                     return <Link to={`/profil/${e.id}`} key={e.id}><p>{e.login}</p></Link>
