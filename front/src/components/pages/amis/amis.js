@@ -70,6 +70,12 @@ export default function Amis() {
         }).catch(err => {
             console.log(err);
         });
+        
+        betaseriesAPI.friendsReceived(access_token).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        });
     }, [idUser]);
 
     useEffect(() => {

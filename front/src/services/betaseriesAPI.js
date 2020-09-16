@@ -47,7 +47,11 @@ class BetaseriesAPI {
     }
 
     friendListBlocked(token, blocked = false) {
-        return network.get(`${API_URL}/friends/list`, { params: { blocked}, headers: authHeader(token) });
+        return network.get(`${API_URL}/friends/list`, { params: { blocked }, headers: authHeader(token) });
+    }
+
+    friendsReceived(token) {
+        return network.get(`${API_URL}/friends/requests`, { params: { received: true }, headers: authHeader(token) });
     }
     
     blockFriend(id, token) {
