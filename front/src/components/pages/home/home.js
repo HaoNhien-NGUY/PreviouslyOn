@@ -10,6 +10,7 @@ import 'swiper/swiper-bundle.css';
 import './home.css';
 
 import PosterCard from '../../card/posterCard';
+import CardDetails from '../../card/cardDetails';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -89,6 +90,7 @@ export default function CenteredGrid() {
 
     return (
         <>
+            {/* <CardDetails /> */}
             <Container className={classes.container} maxWidth={'xl'}>
                 <Typography className={classes.title} variant="h4" align="left">Séries à découvrir</Typography>
                 <div className="swiper-container swiper1" >
@@ -98,7 +100,7 @@ export default function CenteredGrid() {
                                 ?
                                 showsToDiscover.map(show => (
                                     <div key={show.id} className="swiper-slide">
-                                        <PosterCard show={show}/>
+                                        <PosterCard show={show} />
                                     </div>
                                 ))
                                 :
@@ -122,7 +124,7 @@ export default function CenteredGrid() {
                                 ?
                                 moviesToDiscover.map(movie => (
                                     <div key={movie.id} className="swiper-slide">
-                                        <PosterCard movie={movie}/>
+                                        <PosterCard movie={movie} />
                                     </div>
                                 ))
                                 :

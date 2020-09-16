@@ -23,7 +23,7 @@ import CardButtons from './cardButtons';
 
 const useStyles = makeStyles(() => ({
   card: {
-    cursor: 'pointer',
+    // cursor: 'pointer',
     borderRadius: '5px',
     boxShadow: 'none',
     position: 'relative',
@@ -71,7 +71,6 @@ const GalaxyCard = React.memo(function GalaxyCard({ show, addShow }) {
   const [inUser, setInUser] = useState(false);
 
   const { title, images: { poster }, seasons, id } = show;
-  // console.log(show);
   const handleAddShow = async () => {
     const response = await betaseriesAPI.addShowToUser(id, store.access_token);
     if (response.status === 200) {
@@ -85,7 +84,7 @@ const GalaxyCard = React.memo(function GalaxyCard({ show, addShow }) {
       setInUser(false);
     }
   }
-  
+
   return (
     <>
       <NoSsr>
@@ -102,7 +101,7 @@ const GalaxyCard = React.memo(function GalaxyCard({ show, addShow }) {
           className={styles.backImg}
           image={poster}
         />
-        <Grow in={!isHovered} {...(isHovered ? { timeout: 800 } : { timeout: 500 })}>
+        <Grow in={!isHovered} {...(isHovered ? { timeout: 600 } : { timeout: 500 })}>
           <Box py={3} px={2} className={styles.content}>
             <Info useStyles={useGalaxyInfoStyles}>
               <InfoTitle>{title}</InfoTitle>
@@ -114,7 +113,7 @@ const GalaxyCard = React.memo(function GalaxyCard({ show, addShow }) {
         </Grow>
 
         <Grow in={isHovered} {...(isHovered ? { timeout: 800 } : { timeout: 500 })}>
-          <Box py={3} px={2} className={styles.content}>
+          <Box py={1} px={1} className={styles.content} style={{ width: '96%' }}>
             <CardButtons handleAddShow={handleAddShow} handleRemoveShow={handleRemoveShow} inUser={inUser}/>
             <Info useStyles={useGalaxyInfoStyles}>
               {/* <InfoTitle>"pdlaspokdsapokdsapodk"</InfoTitle> */}
