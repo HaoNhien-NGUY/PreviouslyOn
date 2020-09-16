@@ -67,7 +67,7 @@ export default function Profil() {
     useEffect(() => {
         if (store.user) {
             betaseriesAPI.friendList(store.user.id, access_token).then(res => {
-                const found = res.data.users.find(element => element.id == idUser);
+                const found = res.data.users.find(element => element.id === idUser);
                 if (found !== undefined) {
                     setIsFriend(false);
                 }
@@ -130,7 +130,6 @@ export default function Profil() {
     
     const handleClickDeblocked = () => {
         betaseriesAPI.deblockFriend(userInfo.id, access_token).then(res => {
-            console.log(res);
             listeBlockedFriends();
         }).catch(err => {
             console.log(err);
@@ -139,15 +138,15 @@ export default function Profil() {
 
     return (
         <>
-            { userInfo !== null &&
+            { userInfo != null &&
                 <Container maxWidth={'lg'}>
                     <Grid container spacing={4}>
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
                                 Resumé de <span className={classes.upperCase}>{userInfo.login}</span>
-                                {store.user && store.user.id != userInfo.id &&
+                                {store.user && store.user.id !== userInfo.id &&
                                     (isFriend ?
-                                        friendsBloqued && userInfo.id && friendsBloqued.find(element => element.id == userInfo.id) ?
+                                        friendsBloqued && userInfo.id && friendsBloqued.find(element => element.id === userInfo.id) ?
                                             <Button variant="contained" color="primary" onClick={handleClickDeblocked} >
                                                 Débloquer
                                             </Button>
@@ -200,7 +199,7 @@ export default function Profil() {
                                 </span>
                             </Paper>
                         </Grid>
-                        {store.user && store.user.id == userInfo.id &&
+                        {store.user && store.user.id === userInfo.id &&
                             <Grid item xs={12}>
                                 <Paper className={classes.paper}>
                                     <span>
