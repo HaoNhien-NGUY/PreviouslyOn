@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useStore } from '../../../store/store';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, Typography } from '@material-ui/core';
 import Swiper, { Pagination, Navigation } from 'swiper';
@@ -50,35 +51,41 @@ const swiperSettings = {
 }
 
 export default function CenteredGrid() {
+    const [store, dispatch] = useStore();
     const classes = useStyles();
     const [showsToDiscover, setShowsToDiscover] = useState([]);
     const [moviesToDiscover, setMoviesToDiscover] = useState([]);
+    const swiper = useRef();
+    const swiper2 = useRef();
 
     useEffect(() => {
         Swiper.use([Pagination, Navigation]);
-        var swiper = new Swiper('.swiper1', swiperSettings);
-        var swiper2 = new Swiper('.swiper2', swiperSettings);
-
-        (async () => {
-            const response = await betaseriesAPI.getShowsToDiscover();
-            if (response.status === 200) {
-                // console.log(response.data.shows);
-                setShowsToDiscover(response.data.shows);
-                swiper.update();
-            }
-        })();
-
-        (async () => {
-            const response = await betaseriesAPI.getMoviesToDiscover();
-            if (response.status === 200) {
-                console.log(response.data.movies[0].id);
-                const movie = await betaseriesAPI.getMovieDetails(response.data.movies[0].id);
-                console.log(movie);
-                // setMoviesToDiscover(response.data.shows);
-                swiper2.update();
-            }
-        })();
+        swiper.current = new Swiper('.swiper1', swiperSettings);
+        swiper2.current = new Swiper('.swiper2', swiperSettings);
     }, []);
+
+    useEffect(() => {
+        if (store.access_token) {
+
+            (async () => {
+                const response = await betaseriesAPI.getShowsToDiscover(store.access_token);
+                if (response.status === 200) {
+                    setShowsToDiscover(response.data.shows);
+                    swiper.current.update();
+                }
+            })();
+
+            (async () => {
+                const response = await betaseriesAPI.getMoviesToDiscover();
+                if (response.status === 200) {
+                    const movie = await betaseriesAPI.getMovieDetails(response.data.movies[0].id);
+                    console.log(movie);
+                    // setMoviesToDiscover(response.data.shows);
+                    swiper2.current.update();
+                }
+            })();
+        }
+    }, [store.access_token]);
 
     return (
         <>
@@ -91,7 +98,7 @@ export default function CenteredGrid() {
                                 ?
                                 showsToDiscover.map(show => (
                                     <div key={show.id} className="swiper-slide">
-                                        <PosterCard show={show} />
+                                        <PosterCard show={show}/>
                                     </div>
                                 ))
                                 :
@@ -115,7 +122,7 @@ export default function CenteredGrid() {
                                 ?
                                 moviesToDiscover.map(movie => (
                                     <div key={movie.id} className="swiper-slide">
-                                        <PosterCard movie={movie} />
+                                        <PosterCard movie={movie}/>
                                     </div>
                                 ))
                                 :
@@ -130,7 +137,6 @@ export default function CenteredGrid() {
                     <div className="swiper-button-prev"></div>
                 </div>
             </Container>
-
         </>
     );
 }
