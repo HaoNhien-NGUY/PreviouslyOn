@@ -17,8 +17,6 @@ import {
 import { useGalaxyInfoStyles } from '@mui-treasury/styles/info/galaxy';
 import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
 
-// import { Rating } from '@material-ui/lab';
-
 import CardButtons from './cardButtons';
 
 const useStyles = makeStyles(() => ({
@@ -58,19 +56,21 @@ const useStyles = makeStyles(() => ({
     bottom: 0,
     width: '91%',
   },
+  buttonBox: {
+    // display: 'flex'
+  },
   backImg: {
     transition: 'transform 0.4s',
   }
 }));
 
-const GalaxyCard = React.memo(function GalaxyCard({ show, addShow }) {
+const GalaxyCard = React.memo(function GalaxyCard({ show }) {
   const [store, dispatch] = useStore();
   const mediaStyles = useCoverCardMediaStyles({ bgPosition: 'top' });
   const styles = useStyles();
   const [isHovered, setIsHovered] = useState(false);
   const [inUser, setInUser] = useState(false);
-
-  const { title, images: { poster }, seasons, id } = show;
+  const { title, images: { poster }, seasons, id, notes, description } = show;
   const handleAddShow = async () => {
     const response = await betaseriesAPI.addShowToUser(id, store.access_token);
     if (response.status === 200) {
@@ -113,12 +113,17 @@ const GalaxyCard = React.memo(function GalaxyCard({ show, addShow }) {
         </Grow>
 
         <Grow in={isHovered} {...(isHovered ? { timeout: 800 } : { timeout: 500 })}>
-          <Box py={1} px={1} className={styles.content} style={{ width: '96%' }}>
-            <CardButtons handleAddShow={handleAddShow} handleRemoveShow={handleRemoveShow} inUser={inUser}/>
+          <Box py={1} px={1} className={`${styles.content} ${styles.buttonBox}`} style={{ width: '96%', height: '96%' }}>
             <Info useStyles={useGalaxyInfoStyles}>
-              {/* <InfoTitle>"pdlaspokdsapokdsapodk"</InfoTitle> */}
-              {/* <InfoCaption>{seasons} saisons</InfoCaption> */}
+              <InfoTitle style={{ margin: '0.8rem 0 1rem' }}>{title}</InfoTitle>
+              <InfoCaption>{description}</InfoCaption>
+              {/* <Rating name="read-only" precision={0.5} size="small" value={notes.mean} readOnly /> */}
             </Info>
+
+            <CardButtons handleAddShow={handleAddShow} handleRemoveShow={handleRemoveShow} inUser={inUser} />
+            {/* <Info useStyles={useGalaxyInfoStyles}> */}
+            {/* <InfoTitle>"pdlaspokdsapokdsapodk"</InfoTitle> */}
+            {/* </Info> */}
           </Box>
         </Grow>
       </Card>

@@ -13,6 +13,10 @@ const useStyles = makeStyles(() => ({
   parent: {
     display: 'flex',
     justifyContent: 'space-between',
+    marginTop: 'auto',
+    width: '95%',
+    position: 'absolute',
+    bottom: 6
   },
   fabProgress: {
     color: 'white',
