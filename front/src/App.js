@@ -5,8 +5,8 @@ import { betaseriesAPI } from './services/betaseriesAPI';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from './components/navbar/navbar';
-import Movies from './components/cinema/movies/getAllMovies';
-import Shows from './components/cinema/shows/getAllShows';
+import Movies from './components/pages/movies/getAllMovies';
+import Shows from './components/pages/shows/getAllShows';
 import Home from './components/pages/home/home';
 import Profil from './components/pages/profil/profil';
 import Amis from './components/pages/amis/amis';
