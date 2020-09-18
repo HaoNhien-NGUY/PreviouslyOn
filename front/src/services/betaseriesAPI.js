@@ -22,6 +22,10 @@ class BetaseriesAPI {
         return network.get(`${API_URL}/shows/list?limit=${params.limit}&start=${params.start}`, { headers: authHeader() });
     }
 
+    getAllShowsWith(params) {
+        return network.get(`${API_URL}/shows/list?limit=${params.limit}&start=${params.start}&starting=${params.title}`, { headers: authHeader() });
+    }
+
     getAllMovies() {
         return network.get(`${API_URL}/movies/list`, { headers: authHeader() });
     }

@@ -87,7 +87,7 @@ export default function CenteredGrid() {
             })();
         }
     }, [store.access_token]);
-
+    
     return (
         <>
             {/* <CardDetails /> */}
