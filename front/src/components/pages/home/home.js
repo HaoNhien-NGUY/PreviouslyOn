@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useStore } from '../../../store/store';
-import { makeStyles } from '@material-ui/core/styles';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Container, Typography, makeStyles } from '@material-ui/core';
 import Swiper, { Pagination, Navigation } from 'swiper';
 import { betaseriesAPI } from '../../../services/betaseriesAPI';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -10,7 +9,6 @@ import 'swiper/swiper-bundle.css';
 import './home.css';
 
 import PosterCard from '../../card/posterCard';
-import CardDetails from '../../card/cardDetails';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -66,8 +64,7 @@ export default function CenteredGrid() {
     }, []);
 
     useEffect(() => {
-        if (store.access_token) {
-
+        if (!store.user_loading) {
             (async () => {
                 const response = await betaseriesAPI.getShowsToDiscover(store.access_token);
                 if (response.status === 200) {
@@ -77,17 +74,17 @@ export default function CenteredGrid() {
                 }
             })();
 
-            (async () => {
-                const response = await betaseriesAPI.getMoviesToDiscover();
-                if (response.status === 200) {
-                    const movie = await betaseriesAPI.getMovieDetails(response.data.movies[0].id);
-                    // console.log(movie);
-                    // setMoviesToDiscover(response.data.shows);
-                    swiper2.current.update();
-                }
-            })();
+            // (async () => {
+            //     const response = await betaseriesAPI.getMoviesToDiscover();
+            //     if (response.status === 200) {
+            //         const movie = await betaseriesAPI.getMovieDetails(response.data.movies[0].id);
+            //         // console.log(movie);
+            //         // setMoviesToDiscover(response.data.shows);
+            //         // swiper2.current.update();
+            //     }
+            // })();
         }
-    }, [store.access_token]);
+    }, [store.user_loading]);
     
     return (
         <>
@@ -116,7 +113,7 @@ export default function CenteredGrid() {
                     <div className="swiper-button-prev"></div>
                 </div>
             </Container>
-            <Container className={classes.container} maxWidth={'xl'}>
+            {/* <Container className={classes.container} maxWidth={'xl'}>
                 <Typography className={classes.title} variant="h4" align="left">Films à découvrir</Typography>
                 <div className="swiper-container swiper2" >
                     <div className="swiper-wrapper">
@@ -139,7 +136,7 @@ export default function CenteredGrid() {
                     <div className="swiper-button-next"></div>
                     <div className="swiper-button-prev"></div>
                 </div>
-            </Container>
+            </Container> */}
         </>
     );
 }

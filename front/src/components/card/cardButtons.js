@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import { Box, makeStyles, Button, CircularProgress} from '@material-ui/core';
 import { KeyboardArrowUp } from '@material-ui/icons';
+import { useArrowWhiteButtonStyles } from '@mui-treasury/styles/button/arrowWhite';
 import CheckIcon from '@material-ui/icons/Check';
 import AddIcon from '@material-ui/icons/Add';
-import CircularProgress from '@material-ui/core/CircularProgress';
-
-import { useArrowWhiteButtonStyles } from '@mui-treasury/styles/button/arrowWhite';
 
 const useStyles = makeStyles(() => ({
   parent: {
@@ -33,7 +29,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const CardButton = ({ handleAddShow, handleRemoveShow, setShowDetails, inUser }) => {
+const CardButton = ({ handleAddShow, handleRemoveShow, setShowDetails, inUser, store }) => {
   const classes = useArrowWhiteButtonStyles();
   const gutterStyles = useStyles();
   const [isLoading, setIsLoading] = useState(false);
@@ -63,9 +59,12 @@ const CardButton = ({ handleAddShow, handleRemoveShow, setShowDetails, inUser })
   return (
     <Box className={gutterStyles.parent}>
       <div className={gutterStyles.btnWrapper}>
-        <Button classes={classes} onClick={handleClick}>
-          {inUser ? <CheckIcon /> : <AddIcon />}
-        </Button>
+        {
+          store.user &&
+          (<Button classes={classes} onClick={handleClick}>
+            {inUser ? <CheckIcon /> : <AddIcon />}
+          </Button>)
+        }
         { isLoading && !inUser && <CircularProgress size="100%" className={gutterStyles.fabProgress} />}
       </div>
       <div className={gutterStyles.btnWrapper}>

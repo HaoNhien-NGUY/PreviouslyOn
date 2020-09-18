@@ -1,22 +1,9 @@
-import React, { useEffect } from 'react';
-import Switch from '@material-ui/core/Switch';
-import Paper from '@material-ui/core/Paper';
-import Slide from '@material-ui/core/Slide';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import Box from '@material-ui/core/Box';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { Slide, Button, Dialog, DialogActions, DialogContent, makeStyles, Grid } from '@material-ui/core';
 import { useArrowDarkButtonStyles } from '@mui-treasury/styles/button/arrowDark';
 import { KeyboardArrowDown } from '@material-ui/icons';
-import Grid from '@material-ui/core/Grid';
 import NoSsr from '@material-ui/core/NoSsr';
 import GoogleFontLoader from 'react-google-font-loader';
-import Rating from '@material-ui/lab/Rating';
 
 const useStyles = makeStyles((theme) => ({
   bannerTitle: {
@@ -53,10 +40,9 @@ const useStyles = makeStyles((theme) => ({
   },
   bannerWrapper: {
     position: 'relative',
-    marginBottom: '1.5rem'
   },
   content: {
-    padding: '8px 24px',
+    padding: '12px 12px',
   },
   tag: {
     color: 'rgba(0, 0, 0, 0.54)',
@@ -74,13 +60,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function SimpleSlide({ showDetails, setShowDetails, show }) {
+export default React.memo(function SimpleSlide({ showDetails, setShowDetails, show }) {
   const classes = useStyles();
   const arrowBtnStyle = useArrowDarkButtonStyles();
 
   const handleClose = () => setShowDetails(v => !v);
   const { title, images, seasons, length, notes, creation, genres, rating, episodes, description } = show;
-
+  
   return (
     <>
       <NoSsr>
@@ -95,6 +81,7 @@ export default function SimpleSlide({ showDetails, setShowDetails, show }) {
         open={showDetails}
         TransitionComponent={Transition}
         onClose={handleClose}
+        // keepMounted
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
         maxWidth="md"
@@ -104,17 +91,16 @@ export default function SimpleSlide({ showDetails, setShowDetails, show }) {
           <h1 className={`${classes.bannerTitle} ${classes.bannerItem}`}>{title}</h1>
           <span className={`${classes.bannerBottomLeft} ${classes.bannerItem} ${classes.bannerBottomText}`}>Noté {notes.mean.toFixed(1)} sur 5</span>
           <span className={`${classes.bannerItem} ${classes.bannerBottomRight} ${classes.bannerBottomText}`}>{creation}</span>
-          <img className={classes.bannerImg} src={images.show}></img>
+          <img className={classes.bannerImg} src={images.show} alt="show-banner"></img>
         </div>
-        {/* <DialogContent> */}
+        <DialogContent>
         <div className={classes.content}>
-          {/* <DialogContentText id="alert-dialog-slide-description"> */}
           <Grid container spacing={6}>
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} md={8}>
               <span className={classes.tag}>Description</span>
               <p style={{ color: '#333', fontSize: '1.3rem' }}>{description}</p>
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={4}>
               <div className={classes.metaDataRight}>
                 <div className={classes.tagWrapper}>
                   <span className={classes.tag}>Genres: </span><span> {Object.values(genres).join(', ')}</span>
@@ -134,11 +120,9 @@ export default function SimpleSlide({ showDetails, setShowDetails, show }) {
               </div>
             </Grid>
           </Grid>
-
-          {/* </DialogContentText> */}
         </div>
-        {/* </DialogContent> */}
-        <DialogActions>
+        </DialogContent>
+        <DialogActions style={{ backgroundColor: '#00000008'}}>
           <div style={{ transform: 'scale(0.7)' }}>
             <Button classes={arrowBtnStyle} onClick={handleClose}>
               <KeyboardArrowDown />
@@ -148,4 +132,4 @@ export default function SimpleSlide({ showDetails, setShowDetails, show }) {
       </Dialog>
     </>
   );
-}
+})

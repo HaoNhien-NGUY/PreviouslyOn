@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { Container, Grid, Paper, Avatar } from '@material-ui/core';
-import { useRouteMatch, Link, Redirect, useHistory } from "react-router-dom";
+import { Container, Grid, Paper } from '@material-ui/core';
+import { useRouteMatch, Link, useHistory } from "react-router-dom";
 import { betaseriesAPI } from '../../../services/betaseriesAPI';
 import { makeStyles } from '@material-ui/core/styles';
 import { authService } from '../../../services/authService';

@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '../../store/store';
 import { betaseriesAPI } from '../../services/betaseriesAPI';
 import GoogleFontLoader from 'react-google-font-loader';
 import NoSsr from '@material-ui/core/NoSsr';
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import { Grow } from '@material-ui/core';
-import CardMedia from '@material-ui/core/CardMedia';
+import { Grow, CardMedia, Card, Box, makeStyles } from '@material-ui/core';
 import {
   Info,
   InfoCaption,
@@ -19,6 +15,8 @@ import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
 
 import CardButtons from './cardButtons';
 import CardDetails from './cardDetails';
+// const CardDetails = React.lazy(() => import('./cardDetails'));
+
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -71,7 +69,9 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
   const [isHovered, setIsHovered] = useState(false);
   const [inUser, setInUser] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  const { title, images: { poster }, seasons, id, notes, creation, genres, rating, showrunner } = show;
+  const renderModal = useRef(false);
+  const { title, images: { poster }, seasons, id, notes, creation, genres, rating } = show;
+
   const handleAddShow = async () => {
     const response = await betaseriesAPI.addShowToUser(id, store.access_token);
     if (response.status === 200) {
@@ -86,6 +86,12 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
     }
   }
 
+  useEffect(() => {
+    if(renderModal.current === false) {
+      renderModal.current = true;
+    }
+  }, [showDetails])
+
   return (
     <>
       <NoSsr>
@@ -96,7 +102,7 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
           ]}
         />
       </NoSsr>
-      <CardDetails showDetails={showDetails} setShowDetails={setShowDetails} show={show} />
+      {renderModal.current && <CardDetails showDetails={showDetails} setShowDetails={setShowDetails} show={show} />}
       <Card className={styles.card} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <CardMedia
           classes={mediaStyles}
@@ -117,12 +123,12 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
           <Box py={1} px={1} className={`${styles.content} ${styles.buttonBox}`} style={{ width: '96%', height: '96%' }}>
             <Info useStyles={useGalaxyInfoStyles}>
               <InfoTitle style={{ margin: '0.8rem 0 2rem' }}>{title}</InfoTitle>
-              <InfoSubtitle><b>Note</b> : { notes.mean.toFixed(2) } / 5 </InfoSubtitle>
-              <InfoSubtitle><b>Diffusé en</b> : { creation }</InfoSubtitle>
-              <InfoSubtitle><b>Rating</b> : { rating }</InfoSubtitle>
-              <InfoSubtitle><b>Genres</b> : { Object.values(genres).join(', ') }</InfoSubtitle>
+              <InfoSubtitle><b>Note</b> : {notes.mean.toFixed(2)} / 5 </InfoSubtitle>
+              <InfoSubtitle><b>Diffusé en</b> : {creation}</InfoSubtitle>
+              <InfoSubtitle><b>Rating</b> : {rating}</InfoSubtitle>
+              <InfoSubtitle><b>Genres</b> : {Object.values(genres).join(', ')}</InfoSubtitle>
             </Info>
-            <CardButtons handleAddShow={handleAddShow} handleRemoveShow={handleRemoveShow} setShowDetails={setShowDetails} inUser={inUser} />
+            <CardButtons store={store} handleAddShow={handleAddShow} handleRemoveShow={handleRemoveShow} setShowDetails={setShowDetails} inUser={inUser} />
           </Box>
         </Grow>
       </Card>

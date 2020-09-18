@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, MenuItem, Fade } from '@material-ui/core';
 import { ACTIONS } from '../../store/store';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export default function ProfileMenu({ anchorEl, setOpenMenu, openMenu, storeDispatch, store }) {
   const history = useHistory();

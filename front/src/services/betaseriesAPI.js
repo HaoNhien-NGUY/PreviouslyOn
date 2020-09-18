@@ -78,12 +78,12 @@ class BetaseriesAPI {
         return network.get(`${API_URL}/members/search?login=${login}`, { headers: authHeader() });
     }
 
-    getShowsToDiscover(token) {
-        return network.get(`${API_URL}/shows/discover?limit=42`, { headers: authHeader(token) });
+    getShowsToDiscover(token = null) {
+        return network.get(`${API_URL}/shows/discover?limit=24`, { headers: authHeader(token) });
     }
 
-    getMoviesToDiscover() {
-        return network.get(`${API_URL}/movies/discover`, { params: {limit: 42, type: 'popular'}, headers: authHeader() });
+    getMoviesToDiscover(token = null) {
+        return network.get(`${API_URL}/movies/discover`, { params: {limit: 42, type: 'popular'}, headers: authHeader(token) });
     }
 
     getMovieDetails(id) {
