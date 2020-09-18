@@ -41,8 +41,7 @@ const useStyles = makeStyles(() => ({
     },
     '&:hover': {
       '&:after': {
-        height: '200%',
-        background: '000000bd',
+        height: '300%',
         transition: 'height 0.7s 0.1s ease-out'
       },
       '& $backImg': {
@@ -98,7 +97,7 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
         />
       </NoSsr>
       <CardDetails showDetails={showDetails} setShowDetails={setShowDetails} show={show} />
-      <Card className={styles.card} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      <Card className={styles.card} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <CardMedia
           classes={mediaStyles}
           className={styles.backImg}
@@ -118,11 +117,10 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
           <Box py={1} px={1} className={`${styles.content} ${styles.buttonBox}`} style={{ width: '96%', height: '96%' }}>
             <Info useStyles={useGalaxyInfoStyles}>
               <InfoTitle style={{ margin: '0.8rem 0 2rem' }}>{title}</InfoTitle>
+              <InfoSubtitle><b>Note</b> : { notes.mean.toFixed(2) } / 5 </InfoSubtitle>
               <InfoSubtitle><b>Diffusé en</b> : { creation }</InfoSubtitle>
-              { showrunner && <InfoSubtitle><b>Showrunner</b> : { showrunner.name }</InfoSubtitle>}
               <InfoSubtitle><b>Rating</b> : { rating }</InfoSubtitle>
               <InfoSubtitle><b>Genres</b> : { Object.values(genres).join(', ') }</InfoSubtitle>
-              <InfoCaption><b>Evaluation</b> : { notes.mean.toFixed(2) } / 5 </InfoCaption>
             </Info>
             <CardButtons handleAddShow={handleAddShow} handleRemoveShow={handleRemoveShow} setShowDetails={setShowDetails} inUser={inUser} />
           </Box>

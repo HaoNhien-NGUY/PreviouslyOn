@@ -13,30 +13,61 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import { useArrowDarkButtonStyles } from '@mui-treasury/styles/button/arrowDark';
 import { KeyboardArrowDown } from '@material-ui/icons';
-
-import { betaseriesAPI } from '../../services/betaseriesAPI';
+import Grid from '@material-ui/core/Grid';
+import NoSsr from '@material-ui/core/NoSsr';
+import GoogleFontLoader from 'react-google-font-loader';
+import Rating from '@material-ui/lab/Rating';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    height: 180,
+  bannerTitle: {
+    top: '50%',
+    width: '100%',
+    textAlign: 'center',
+    transform: 'translateY(-50%)',
+    color: 'white',
+    fontFamily: 'Montserrat',
   },
-  wrapper: {
-    width: 100 + theme.spacing(2),
+  bannerBottomLeft: {
+    bottom: '20px',
+    left: '20px',
+    color: 'white',
   },
-  paper: {
-    zIndex: 1,
+  bannerItem: {
+    zIndex: 10,
+    position: 'absolute',
+    margin: 0,
+  },
+  bannerBottomText: {
+    color: 'white',
+    fontSize: '1.2rem',
+    fontFamily: 'Spartan',
+  },
+  bannerImg: {
+    objectFit: 'contain',
+    maxWidth: '100%',
+    filter: 'brightness(45%)'
+  },
+  bannerBottomRight: {
+    bottom: '20px',
+    right: '20px'
+  },
+  bannerWrapper: {
     position: 'relative',
-    margin: theme.spacing(1),
+    marginBottom: '1.5rem'
   },
-  svg: {
-    width: 100,
-    height: 100,
+  content: {
+    padding: '8px 24px',
   },
-  polygon: {
-    fill: theme.palette.common.white,
-    stroke: theme.palette.divider,
-    strokeWidth: 1,
+  tag: {
+    color: 'rgba(0, 0, 0, 0.54)',
+    fontSize: '1.2rem',
   },
+  metaDataRight: {
+    fontSize: '1.2rem',
+  },
+  tagWrapper: {
+    marginBottom: '9px',
+  }
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -48,30 +79,65 @@ export default function SimpleSlide({ showDetails, setShowDetails, show }) {
   const arrowBtnStyle = useArrowDarkButtonStyles();
 
   const handleClose = () => setShowDetails(v => !v);
-  const { title, images: { poster }, seasons, id, notes, creation, genres, rating, showrunner } = show;
+  const { title, images, seasons, length, notes, creation, genres, rating, episodes, description } = show;
 
   return (
     <>
+      <NoSsr>
+        <GoogleFontLoader
+          fonts={[
+            { font: 'Spartan', weights: [300] },
+            { font: 'Montserrat', weights: [200, 400, 700] },
+          ]}
+        />
+      </NoSsr>
       <Dialog
         open={showDetails}
         TransitionComponent={Transition}
-        keepMounted
         onClose={handleClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
+        maxWidth="md"
       >
-          {/* <DialogTitle id="alert-dialog-slide-title">{title}</DialogTitle> */}
-        <DialogContent>
-        {/* <Box>
-        <img style={{ objectFit: 'contain' }} src="https://pictures.betaseries.com/fonds/banner/19961_1332404.jpg"></img>
-        </Box> */}
-          <div style={{ height: 'auto', overflow: 'auto' }}>
-            <div style={{ float: 'right', height: 'auto' }}><img style={{ objectFit: 'contain' }} src="https://pictures.betaseries.com/fonds/banner/19961_1332404.jpg"></img></div>
-          </div>
-          <DialogContentText id="alert-dialog-slide-description">
-            infos ici.ddddddddddddddddddddddddddddddddddopk  p spo dpo ksapo apo sopsk p pok dpok daspok po kapok pok
-          </DialogContentText>
-        </DialogContent>
+
+        <div className={classes.bannerWrapper}>
+          <h1 className={`${classes.bannerTitle} ${classes.bannerItem}`}>{title}</h1>
+          <span className={`${classes.bannerBottomLeft} ${classes.bannerItem} ${classes.bannerBottomText}`}>Noté {notes.mean.toFixed(1)} sur 5</span>
+          <span className={`${classes.bannerItem} ${classes.bannerBottomRight} ${classes.bannerBottomText}`}>{creation}</span>
+          <img className={classes.bannerImg} src={images.show}></img>
+        </div>
+        {/* <DialogContent> */}
+        <div className={classes.content}>
+          {/* <DialogContentText id="alert-dialog-slide-description"> */}
+          <Grid container spacing={6}>
+            <Grid item xs={12} md={7}>
+              <span className={classes.tag}>Description</span>
+              <p style={{ color: '#333', fontSize: '1.3rem' }}>{description}</p>
+            </Grid>
+            <Grid item xs={12} md={5}>
+              <div className={classes.metaDataRight}>
+                <div className={classes.tagWrapper}>
+                  <span className={classes.tag}>Genres: </span><span> {Object.values(genres).join(', ')}</span>
+                </div>
+                <div className={classes.tagWrapper}>
+                  <span className={classes.tag}>Rating: </span><span> {rating}</span>
+                </div>
+                <div className={classes.tagWrapper}>
+                  <span className={classes.tag}>Nombre de saisons: </span><span> {seasons}</span>
+                </div>
+                <div className={classes.tagWrapper}>
+                  <span className={classes.tag}>Nombre total d'épisodes: </span><span>{episodes}</span>
+                </div>
+                <div className={classes.tagWrapper}>
+                  <span className={classes.tag}>Durée d'un épisode: </span><span> {length} min</span>
+                </div>
+              </div>
+            </Grid>
+          </Grid>
+
+          {/* </DialogContentText> */}
+        </div>
+        {/* </DialogContent> */}
         <DialogActions>
           <div style={{ transform: 'scale(0.7)' }}>
             <Button classes={arrowBtnStyle} onClick={handleClose}>
