@@ -42,7 +42,7 @@ export default function Profil() {
     const access_token = authService.getToken();
     const [store, storeDispatch] = useStore();
     const [userInfo, setUserInfo] = useState(null);
-    const [isFriend, setIsFriend] = useState(true);
+    const [isNotFriend, setIsNotFriend] = useState(true);
     const [friendsBloqued, setFriendsBloqued] = useState(null);
     const [userFriends, setUserFriends] = useState(null);
 
@@ -55,7 +55,7 @@ export default function Profil() {
         }).catch(err => {
             console.log(err);
         });
-        setIsFriend(true);
+        setIsNotFriend(true);
 
         betaseriesAPI.friendList(idUser, access_token).then(res => {
             setUserFriends(res.data.users);
@@ -67,9 +67,9 @@ export default function Profil() {
     useEffect(() => {
         if (store.user) {
             betaseriesAPI.friendList(store.user.id, access_token).then(res => {
-                const found = res.data.users.find(element => element.id === idUser);
+                const found = res.data.users.find(element => element.id == idUser);
                 if (found !== undefined) {
-                    setIsFriend(false);
+                    setIsNotFriend(false);
                 }
             }).catch(err => {
                 console.log(err);
@@ -105,7 +105,7 @@ export default function Profil() {
 
     const handleClickAdd = () => {
         betaseriesAPI.addFriend(userInfo.id, access_token).then(res => {
-            setIsFriend(false);
+            setIsNotFriend(false);
         }).catch(err => {
             console.log(err);
         });
@@ -113,7 +113,7 @@ export default function Profil() {
 
     const handleClickDelete = () => {
         betaseriesAPI.deleteFriend(userInfo.id, access_token).then(res => {
-            setIsFriend(true);
+            setIsNotFriend(true);
         }).catch(err => {
             console.log(err);
         });
@@ -122,7 +122,7 @@ export default function Profil() {
     const handleClickBlocked = () => {
         betaseriesAPI.blockFriend(userInfo.id, access_token).then(res => {
             listeBlockedFriends();
-            setIsFriend(true);
+            setIsNotFriend(true);
         }).catch(err => {
             console.log(err);
         });
@@ -135,7 +135,7 @@ export default function Profil() {
             console.log(err);
         });
     }
-
+    
     return (
         <>
             { userInfo != null &&
@@ -145,7 +145,7 @@ export default function Profil() {
                             <Paper className={classes.paper}>
                                 Resumé de <span className={classes.upperCase}>{userInfo.login}</span>
                                 {store.user && store.user.id !== userInfo.id &&
-                                    (isFriend ?
+                                    (isNotFriend ?
                                         friendsBloqued && userInfo.id && friendsBloqued.find(element => element.id === userInfo.id) ?
                                             <Button variant="contained" color="primary" onClick={handleClickDeblocked} >
                                                 Débloquer
