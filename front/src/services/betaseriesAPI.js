@@ -95,7 +95,7 @@ class BetaseriesAPI {
     }
 
     getShowDetails(id) {
-        return network.get(`${API_URL}/movies/movie`, { params: { id }, headers: authHeader() });
+        return network.get(`${API_URL}/shows/display`, { params: { id }, headers: authHeader() });
     }
 }
 

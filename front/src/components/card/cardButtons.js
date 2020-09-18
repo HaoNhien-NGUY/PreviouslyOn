@@ -33,7 +33,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const CardButton = ({ handleAddShow, handleRemoveShow, inUser }) => {
+const CardButton = ({ handleAddShow, handleRemoveShow, setShowDetails, inUser }) => {
   const classes = useArrowWhiteButtonStyles();
   const gutterStyles = useStyles();
   const [isLoading, setIsLoading] = useState(false);
@@ -56,6 +56,10 @@ const CardButton = ({ handleAddShow, handleRemoveShow, inUser }) => {
     }
   }
 
+  const handleDetailsOpen = () => {
+    setShowDetails(v => !v);
+  }
+
   return (
     <Box className={gutterStyles.parent}>
       <div className={gutterStyles.btnWrapper}>
@@ -65,7 +69,7 @@ const CardButton = ({ handleAddShow, handleRemoveShow, inUser }) => {
         { isLoading && !inUser && <CircularProgress size="100%" className={gutterStyles.fabProgress} />}
       </div>
       <div className={gutterStyles.btnWrapper}>
-        <Button classes={classes}>
+        <Button classes={classes} onClick={handleDetailsOpen}>
           <KeyboardArrowUp />
         </Button>
       </div>

@@ -71,6 +71,7 @@ export default function CenteredGrid() {
             (async () => {
                 const response = await betaseriesAPI.getShowsToDiscover(store.access_token);
                 if (response.status === 200) {
+                    console.log(response.data);
                     setShowsToDiscover(response.data.shows);
                     swiper.current.update();
                 }
@@ -80,7 +81,7 @@ export default function CenteredGrid() {
                 const response = await betaseriesAPI.getMoviesToDiscover();
                 if (response.status === 200) {
                     const movie = await betaseriesAPI.getMovieDetails(response.data.movies[0].id);
-                    console.log(movie);
+                    // console.log(movie);
                     // setMoviesToDiscover(response.data.shows);
                     swiper2.current.update();
                 }

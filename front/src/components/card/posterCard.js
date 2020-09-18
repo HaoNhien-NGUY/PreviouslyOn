@@ -18,6 +18,7 @@ import { useGalaxyInfoStyles } from '@mui-treasury/styles/info/galaxy';
 import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
 
 import CardButtons from './cardButtons';
+import CardDetails from './cardDetails';
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -70,7 +71,8 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
   const styles = useStyles();
   const [isHovered, setIsHovered] = useState(false);
   const [inUser, setInUser] = useState(false);
-  const { title, images: { poster }, seasons, id, notes, description } = show;
+  const [showDetails, setShowDetails] = useState(false);
+  const { title, images: { poster }, seasons, id, notes, creation, genres, rating, showrunner } = show;
   const handleAddShow = async () => {
     const response = await betaseriesAPI.addShowToUser(id, store.access_token);
     if (response.status === 200) {
@@ -95,35 +97,34 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
           ]}
         />
       </NoSsr>
+      <CardDetails showDetails={showDetails} setShowDetails={setShowDetails} show={show} />
       <Card className={styles.card} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <CardMedia
           classes={mediaStyles}
           className={styles.backImg}
           image={poster}
         />
-        <Grow in={!isHovered} {...(isHovered ? { timeout: 600 } : { timeout: 500 })}>
+        <Grow in={!isHovered} {...(isHovered ? { timeout: 400 } : { timeout: 500 })}>
           <Box py={3} px={2} className={styles.content}>
             <Info useStyles={useGalaxyInfoStyles}>
               <InfoTitle>{title}</InfoTitle>
               {/* <InfoSubtitle>{seasons} saisons</InfoSubtitle> */}
               <InfoCaption>{seasons} saisons</InfoCaption>
-              {/* <Rating name="read-only" precision={0.5} size="small" value={notes.mean} readOnly /> */}
             </Info>
           </Box>
         </Grow>
 
-        <Grow in={isHovered} {...(isHovered ? { timeout: 800 } : { timeout: 500 })}>
+        <Grow in={isHovered} {...(isHovered ? { timeout: 700 } : { timeout: 400 })}>
           <Box py={1} px={1} className={`${styles.content} ${styles.buttonBox}`} style={{ width: '96%', height: '96%' }}>
             <Info useStyles={useGalaxyInfoStyles}>
-              <InfoTitle style={{ margin: '0.8rem 0 1rem' }}>{title}</InfoTitle>
-              <InfoCaption>{description}</InfoCaption>
-              {/* <Rating name="read-only" precision={0.5} size="small" value={notes.mean} readOnly /> */}
+              <InfoTitle style={{ margin: '0.8rem 0 2rem' }}>{title}</InfoTitle>
+              <InfoSubtitle><b>Diffusé en</b> : { creation }</InfoSubtitle>
+              { showrunner && <InfoSubtitle><b>Showrunner</b> : { showrunner.name }</InfoSubtitle>}
+              <InfoSubtitle><b>Rating</b> : { rating }</InfoSubtitle>
+              <InfoSubtitle><b>Genres</b> : { Object.values(genres).join(', ') }</InfoSubtitle>
+              <InfoCaption><b>Evaluation</b> : { notes.mean.toFixed(2) } / 5 </InfoCaption>
             </Info>
-
-            <CardButtons handleAddShow={handleAddShow} handleRemoveShow={handleRemoveShow} inUser={inUser} />
-            {/* <Info useStyles={useGalaxyInfoStyles}> */}
-            {/* <InfoTitle>"pdlaspokdsapokdsapodk"</InfoTitle> */}
-            {/* </Info> */}
+            <CardButtons handleAddShow={handleAddShow} handleRemoveShow={handleRemoveShow} setShowDetails={setShowDetails} inUser={inUser} />
           </Box>
         </Grow>
       </Card>
