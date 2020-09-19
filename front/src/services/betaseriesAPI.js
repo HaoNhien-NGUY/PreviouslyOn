@@ -79,7 +79,7 @@ class BetaseriesAPI {
     }
 
     getShowsToDiscover(token = null) {
-        return network.get(`${API_URL}/shows/discover?limit=24`, { headers: authHeader(token) });
+        return network.get(`${API_URL}/shows/discover?limit=30`, { headers: authHeader(token) });
     }
 
     getMoviesToDiscover(token = null) {
@@ -100,6 +100,14 @@ class BetaseriesAPI {
 
     getShowDetails(id) {
         return network.get(`${API_URL}/shows/display`, { params: { id }, headers: authHeader() });
+    }
+
+    archiveShow(id, token) {
+        return network.post(`${API_URL}/shows/archive`, { id }, { headers: authHeader(token) });
+    }
+
+    unarchiveShow(id, token) {
+        return network.delete(`${API_URL}/shows/archive`, { params: { id }, headers: authHeader(token) });
     }
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useStore } from '../../store/store';
 import { betaseriesAPI } from '../../services/betaseriesAPI';
 import GoogleFontLoader from 'react-google-font-loader';
@@ -40,7 +40,7 @@ const useStyles = makeStyles(() => ({
     '&:hover': {
       '&:after': {
         height: '300%',
-        transition: 'height 0.7s 0.1s ease-out'
+        transition: 'height 0.9s 0.1s ease-out'
       },
       '& $backImg': {
         transform: 'scale(1.06)',
@@ -63,6 +63,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const GalaxyCard = React.memo(function GalaxyCard({ show }) {
+  const { title, images: { poster }, seasons, id, notes, creation, genres, rating } = show;
   const [store, dispatch] = useStore();
   const mediaStyles = useCoverCardMediaStyles({ bgPosition: 'top' });
   const styles = useStyles();
@@ -70,24 +71,23 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
   const [inUser, setInUser] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const renderModal = useRef(false);
-  const { title, images: { poster }, seasons, id, notes, creation, genres, rating } = show;
 
-  const handleAddShow = async () => {
+  const handleAddShow = useCallback(async () => {
     const response = await betaseriesAPI.addShowToUser(id, store.access_token);
     if (response.status === 200) {
       setInUser(true);
     }
-  }
+  }, []);
 
-  const handleRemoveShow = async () => {
+  const handleRemoveShow = useCallback(async () => {
     const response = await betaseriesAPI.removeShowToUser(id, store.access_token);
     if (response.status === 200) {
       setInUser(false);
     }
-  }
+  }, []);
 
   useEffect(() => {
-    if(renderModal.current === false) {
+    if (renderModal.current === false) {
       renderModal.current = true;
     }
   }, [showDetails])
@@ -102,7 +102,16 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
           ]}
         />
       </NoSsr>
-      {renderModal.current && <CardDetails showDetails={showDetails} setShowDetails={setShowDetails} show={show} />}
+      {renderModal.current &&
+        <CardDetails 
+        showDetails={showDetails} 
+        setShowDetails={setShowDetails} 
+        show={show} 
+        store={store} 
+        inUser={inUser} 
+        handleAddShow={handleAddShow} 
+        handleRemoveShow={handleRemoveShow} 
+        />}
       <Card className={styles.card} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <CardMedia
           classes={mediaStyles}
@@ -119,7 +128,7 @@ const GalaxyCard = React.memo(function GalaxyCard({ show }) {
           </Box>
         </Grow>
 
-        <Grow in={isHovered} {...(isHovered ? { timeout: 700 } : { timeout: 400 })}>
+        <Grow in={isHovered} {...(isHovered ? { timeout: 600 } : { timeout: 200 })}>
           <Box py={1} px={1} className={`${styles.content} ${styles.buttonBox}`} style={{ width: '96%', height: '96%' }}>
             <Info useStyles={useGalaxyInfoStyles}>
               <InfoTitle style={{ margin: '0.8rem 0 2rem' }}>{title}</InfoTitle>

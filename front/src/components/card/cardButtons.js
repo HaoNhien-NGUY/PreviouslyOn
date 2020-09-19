@@ -29,11 +29,11 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const CardButton = ({ handleAddShow, handleRemoveShow, setShowDetails, inUser, store }) => {
+export default React.memo(function CardButton({ handleAddShow, handleRemoveShow, setShowDetails, inUser, store }) {
   const classes = useArrowWhiteButtonStyles();
   const gutterStyles = useStyles();
   const [isLoading, setIsLoading] = useState(false);
-
+  
   useEffect(() => {
     setIsLoading(false);
   }, [inUser]);
@@ -74,6 +74,6 @@ const CardButton = ({ handleAddShow, handleRemoveShow, setShowDetails, inUser, s
       </div>
     </Box>
   );
-};
+});
 
-export default CardButton;
+// export default CardButton;

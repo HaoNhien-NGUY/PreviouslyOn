@@ -56,7 +56,7 @@ export default function CenteredGrid() {
     const [moviesToDiscover, setMoviesToDiscover] = useState([]);
     const swiper = useRef();
     const swiper2 = useRef();
-
+    
     useEffect(() => {
         Swiper.use([Pagination, Navigation]);
         swiper.current = new Swiper('.swiper1', swiperSettings);
@@ -84,7 +84,7 @@ export default function CenteredGrid() {
             //     }
             // })();
         }
-    }, [store.user_loading]);
+    }, [store.user_loading, store.user]);
     
     return (
         <>
