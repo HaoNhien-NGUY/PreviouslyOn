@@ -10,6 +10,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 
 import { useHistory } from "react-router-dom";
 
@@ -176,9 +177,6 @@ export default React.memo(function SimpleSlide({ showDetails, setShowDetails, sh
               <Grid item xs={12} md={4}>
                 <div className={classes.metaDataRight}>
                   <div className={classes.tagWrapper}>
-                    <span className={classes.tag}>Genres: </span><span> {Object.values(genres).join(', ')}</span>
-                  </div>
-                  <div className={classes.tagWrapper}>
                     <span className={classes.tag}>Rating: </span><span> {rating}</span>
                   </div>
                   <div className={classes.tagWrapper}>
@@ -189,6 +187,9 @@ export default React.memo(function SimpleSlide({ showDetails, setShowDetails, sh
                   </div>
                   <div className={classes.tagWrapper}>
                     <span className={classes.tag}>Durée d'un épisode: </span><span> {length} min</span>
+                  </div>
+                  <div className={classes.tagWrapper}>
+                    <span className={classes.tag}>Genres: </span><span> {Object.values(genres).join(', ')}</span>
                   </div>
                 </div>
               </Grid>
@@ -219,14 +220,14 @@ export default React.memo(function SimpleSlide({ showDetails, setShowDetails, sh
                     :
                     <div className={gutterStyles.btnWrapper}>
                       <Button classes={arrowBtnStyle} onClick={handleUnarchiveShow}>
-                        <UnarchiveIcon />
+                        <RestoreFromTrashIcon />
                       </Button>
                     </div>
                 )
 
               }
               <div className={gutterStyles.btnWrapper}>
-                <Button classes={arrowBtnStyle} onClick={() =>  history.push(`/shows/${id}`) }>
+                <Button classes={arrowBtnStyle} onClick={() => history.push(`/shows/${id}`)}>
                   <ArrowForwardIcon />
                 </Button>
               </div>

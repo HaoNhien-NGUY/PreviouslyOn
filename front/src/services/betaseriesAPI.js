@@ -112,7 +112,18 @@ class BetaseriesAPI {
 
     getShowEpisodes(id, token = null) {
         return network.get(`${API_URL}/shows/episodes`, { params: { id }, headers: authHeader(token) });
-    
+    }
+
+    getEpisodeDetails(id, token = null) {
+        return network.get(`${API_URL}/episodes/display`, { params: { id }, headers: authHeader(token) });
+    }
+
+    addEpisodeWatched(id, token, bulk = true) {
+        return network.post(`${API_URL}/episodes/watched`, { id, bulk }, { headers: authHeader(token) });
+    }
+
+    removeEpisodeWatched(id, token) {
+        return network.delete(`${API_URL}/episodes/watched`, { params: { id }, headers: authHeader(token) });
     }
 }
 
