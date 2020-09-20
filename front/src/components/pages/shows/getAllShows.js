@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Shows() {
+export default function GetAllShows() {
     const classes = useStyles();
     const [allShows, setAllShows] = useState(null);
     const [isLoading, setIsLoading] = useState(false);

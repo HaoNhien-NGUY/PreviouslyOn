@@ -98,8 +98,8 @@ class BetaseriesAPI {
         return network.delete(`${API_URL}/shows/show`, { params: { id }, headers: authHeader(token) });
     }
 
-    getShowDetails(id) {
-        return network.get(`${API_URL}/shows/display`, { params: { id }, headers: authHeader() });
+    getShowDetails(id, token = null) {
+        return network.get(`${API_URL}/shows/display`, { params: { id }, headers: authHeader(token) });
     }
 
     archiveShow(id, token) {
@@ -108,6 +108,11 @@ class BetaseriesAPI {
 
     unarchiveShow(id, token) {
         return network.delete(`${API_URL}/shows/archive`, { params: { id }, headers: authHeader(token) });
+    }
+
+    getShowEpisodes(id, token = null) {
+        return network.get(`${API_URL}/shows/episodes`, { params: { id }, headers: authHeader(token) });
+    
     }
 }
 

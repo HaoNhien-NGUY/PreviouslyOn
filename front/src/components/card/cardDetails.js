@@ -11,6 +11,8 @@ import ArchiveIcon from '@material-ui/icons/Archive';
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
+import { useHistory } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   bannerTitle: {
     top: '50%',
@@ -87,6 +89,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default React.memo(function SimpleSlide({ showDetails, setShowDetails, show, store, handleAddShow, handleRemoveShow, inUser }) {
   const { id, title, images, seasons, length, notes, creation, genres, rating, episodes, description } = show;
+  const history = useHistory();
   const classes = useStyles();
   const arrowBtnStyle = useArrowDarkButtonStyles();
   const gutterStyles = useStyles();
@@ -193,7 +196,7 @@ export default React.memo(function SimpleSlide({ showDetails, setShowDetails, sh
           </div>
         </DialogContent>
         <DialogActions className={classes.dialogActions}>
-          <div style={{ transform: 'scale(0.7)', transformOrigin: '0 50%', marginLeft: '10px' }}>
+          <div style={{ transform: 'scale(0.8)', transformOrigin: '0 50%', marginLeft: '10px' }}>
             <Box className={gutterStyles.parent}>
               <div className={gutterStyles.btnWrapper}>
                 {
@@ -223,7 +226,7 @@ export default React.memo(function SimpleSlide({ showDetails, setShowDetails, sh
 
               }
               <div className={gutterStyles.btnWrapper}>
-                <Button classes={arrowBtnStyle}>
+                <Button classes={arrowBtnStyle} onClick={() =>  history.push(`/shows/${id}`) }>
                   <ArrowForwardIcon />
                 </Button>
               </div>

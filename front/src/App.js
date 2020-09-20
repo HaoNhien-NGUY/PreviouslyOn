@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from './components/navbar/navbar';
 import Movies from './components/pages/movies/getAllMovies';
 import Shows from './components/pages/shows/getAllShows';
+import ShowTest from './components/pages/shows/showDetails';
 import Home from './components/pages/home/home';
 import Profil from './components/pages/profil/profil';
 import Amis from './components/pages/amis/amis';
@@ -40,6 +41,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/shows" component={Shows} />
+          <Route exact path="/shows/:id" component={ShowTest} />
           <Route exact path="/movies" component={Movies} />
           <Route exact path="/profil/:id" component={Profil} />
           <Route exact path="/profil/:id/friends" component={Amis} />
