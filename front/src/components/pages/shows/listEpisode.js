@@ -14,8 +14,9 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Box } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     root: {
         marginBottom: '1rem',
     },
@@ -30,7 +31,10 @@ const useStyles = makeStyles({
     pos: {
         marginBottom: 12,
     },
-});
+    divider: {
+        margin: theme.spacing(2, 0),
+    },
+}));
 
 export default function OutlinedCard({ episode, store, inUser, getAllEpisodes }) {
     const { title, date, description, note, user, id } = episode;
@@ -88,7 +92,17 @@ export default function OutlinedCard({ episode, store, inUser, getAllEpisodes })
                     <AccordionDetails>
                         <div>
                             <Typography color="textSecondary">{description}</Typography>
-                            <Button style={{ marginTop: '1rem' }} variant="contained" disableElevation onClick={addOneEpisode}>Marquer uniquement cet épisode</Button>
+                            <Divider className={classes.divider} />
+                            <Grid container justify="space-between" >
+                                Noté {note.mean.toFixed(1)} / 5
+                                {store.user && inUser && !user.seen
+                                    ?
+                                    <Button variant="contained" disableElevation onClick={addOneEpisode}>Marquer uniquement cet épisode</Button>
+                                    :
+                                    <Button variant="contained" disableElevation>Commentaires</Button>
+                                }
+
+                            </Grid>
                         </div>
                     </AccordionDetails>
                 </Accordion>
