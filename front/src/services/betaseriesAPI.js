@@ -125,6 +125,14 @@ class BetaseriesAPI {
     removeEpisodeWatched(id, token) {
         return network.delete(`${API_URL}/episodes/watched`, { params: { id }, headers: authHeader(token) });
     }
+
+    getEpisodeComments(id, token = null) {
+        return network.get(`${API_URL}/comments/comments`, { params: { id, type: 'episode', order: 'desc' }, headers: authHeader(token) });
+    }
+
+    commentEpisode(id, text, token) {
+        return network.post(`${API_URL}/comments/comment`, { id, type: 'episode', text }, { headers: authHeader(token) });
+    }
 }
 
 const betaseriesAPI = new BetaseriesAPI();

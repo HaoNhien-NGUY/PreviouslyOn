@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function OutlinedCard({ episode, store, inUser, getAllEpisodes }) {
+export default function OutlinedCard({ episode, store, inUser, getAllEpisodes, setEpisode }) {
     const { title, date, description, note, user, id } = episode;
     const classes = useStyles();
 
@@ -93,13 +93,16 @@ export default function OutlinedCard({ episode, store, inUser, getAllEpisodes })
                         <div>
                             <Typography color="textSecondary">{description}</Typography>
                             <Divider className={classes.divider} />
-                            <Grid container justify="space-between" >
-                                Noté {note.mean.toFixed(1)} / 5
-                                {store.user && inUser && !user.seen
-                                    ?
-                                    <Button variant="contained" disableElevation onClick={addOneEpisode}>Marquer uniquement cet épisode</Button>
-                                    :
-                                    <Button variant="contained" disableElevation>Commentaires</Button>
+                            <Grid container justify="space-between" alignItems="center">
+                                <h3>Note: {note.mean.toFixed(1)} / 5</h3>
+                                {store.user && inUser &&
+                                    (<div>
+                                        {
+                                            !user.seen &&
+                                            <Button style={{ marginRight: '1rem' }} variant="contained" disableElevation onClick={addOneEpisode}>Marquer uniquement cet épisode</Button>
+                                        }
+                                        <Button variant="contained" disableElevation onClick={() => setEpisode(episode)}>Commentaires</Button>
+                                    </div>)
                                 }
 
                             </Grid>

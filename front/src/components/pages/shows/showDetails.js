@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { betaseriesAPI } from '../../../services/betaseriesAPI';
 import { useStore } from '../../../store/store';
 import { useRouteMatch, Link } from "react-router-dom";
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid, Dialog, Slide } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -16,7 +16,8 @@ import CheckIcon from '@material-ui/icons/Check';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 
-import ListEpisode from './listEpisode'
+import ListEpisode from './listEpisode';
+import Comments from './comments'
 
 const useStyles = makeStyles({
   media: {
@@ -75,6 +76,10 @@ const useStyles = makeStyles({
   }
 });
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export default function ShowDetails() {
   const idShow = useRouteMatch("/shows/:id").params.id;
   const classes = useStyles();
@@ -85,6 +90,7 @@ export default function ShowDetails() {
   const [isLoading, setIsLoading] = useState(false);
   const [archiveInUser, setArchiveInUser] = useState(false);
   const [inUser, setInUser] = useState(false);
+  const [episode, setEpisode] = useState(false);
 
   const handleClick = () => {
     if (isLoading) {
@@ -161,7 +167,7 @@ export default function ShowDetails() {
 
       getAllEpisodes();
     }
-  }, [store.user_loading, store.user])
+  }, [store.user_loading, store.user]);
 
   useEffect(() => {
     setIsLoading(false);
@@ -170,104 +176,118 @@ export default function ShowDetails() {
   return (
     <>
       { show && episodes &&
-        <Container maxWidth="md">
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Card>
-                <CardMedia
-                  className={classes.media}
-                  image={show.images.show}
-                >
-                  <Box className={classes.parent}>
-                    <div className={classes.btnWrapper}>
-                      {
-                        store.user &&
-                        (<Button classes={arrowBtnStyle} onClick={handleClick}>
-                          {inUser ? <CheckIcon /> : <AddIcon />}
-                        </Button>)
-                      }
-                      {isLoading && !inUser && <CircularProgress size="100%" className={classes.fabProgress} />}
-                    </div>
-                    {inUser &&
-                      (
-                        !archiveInUser
-                          ?
-                          <div className={classes.btnWrapper}>
-                            <Button classes={arrowBtnStyle} onClick={handleArchiveClick}>
-                              <ArchiveIcon />
-                            </Button>
-                          </div>
-                          :
-                          <div className={classes.btnWrapper}>
-                            <Button classes={arrowBtnStyle} onClick={handleUnarchiveShow}>
-                              <RestoreFromTrashIcon />
-                            </Button>
-                          </div>
-                      )
-                    }
-                  </Box>
-                  <Typography className={classes.title} gutterBottom variant="h4" component="h4">
-                    {show.title}
-                  </Typography>
-                </CardMedia>
-                <CardContent>
-                  <Grid container spacing={5} justify="space-between">
-                    <Grid item xs={12} md={7}>
-                      <p style={{ color: '#333', fontSize: '1.2rem', marginTop: '0px' }}>{show.description}</p>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                      <div className={classes.metaDataRight}>
-                        <div className={classes.tagWrapper}>
-                          <span className={classes.tag}>Note: </span><span> {show.notes.mean.toFixed(1)} / 5</span>
-                        </div>
-                        <div className={classes.tagWrapper}>
-                          <span className={classes.tag}>Rating: </span><span> {show.rating}</span>
-                        </div>
-                        <div className={classes.tagWrapper}>
-                          <span className={classes.tag}>Nombre de saisons: </span><span> {show.seasons}</span>
-                        </div>
-                        <div className={classes.tagWrapper}>
-                          <span className={classes.tag}>Nombre total d'épisodes: </span><span>{show.episodes}</span>
-                        </div>
-                        <div className={classes.tagWrapper}>
-                          <span className={classes.tag}>Durée d'un épisode: </span><span> {show.length} min</span>
-                        </div>
-                        <div className={classes.tagWrapper}>
-                          <span className={classes.tag}>Genres: </span><span> {Object.values(show.genres).join(', ')}</span>
-                        </div>
+        <>
+          <Container maxWidth="md">
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Card>
+                  <CardMedia
+                    className={classes.media}
+                    image={show.images.show}
+                  >
+                    <Box className={classes.parent}>
+                      <div className={classes.btnWrapper}>
+                        {
+                          store.user &&
+                          (<Button classes={arrowBtnStyle} onClick={handleClick}>
+                            {inUser ? <CheckIcon /> : <AddIcon />}
+                          </Button>)
+                        }
+                        {isLoading && !inUser && <CircularProgress size="100%" className={classes.fabProgress} />}
                       </div>
+                      {inUser &&
+                        (
+                          !archiveInUser
+                            ?
+                            <div className={classes.btnWrapper}>
+                              <Button classes={arrowBtnStyle} onClick={handleArchiveClick}>
+                                <ArchiveIcon />
+                              </Button>
+                            </div>
+                            :
+                            <div className={classes.btnWrapper}>
+                              <Button classes={arrowBtnStyle} onClick={handleUnarchiveShow}>
+                                <RestoreFromTrashIcon />
+                              </Button>
+                            </div>
+                        )
+                      }
+                    </Box>
+                    <Typography className={classes.title} gutterBottom variant="h4" component="h4">
+                      {show.title}
+                    </Typography>
+                  </CardMedia>
+                  <CardContent>
+                    <Grid container spacing={5} justify="space-between">
+                      <Grid item xs={12} md={7}>
+                        <p style={{ color: '#333', fontSize: '1.2rem', marginTop: '0px' }}>{show.description}</p>
+                      </Grid>
+                      <Grid item xs={12} md={4}>
+                        <div className={classes.metaDataRight}>
+                          <div className={classes.tagWrapper}>
+                            <span className={classes.tag}>Note: </span><span> {show.notes.mean.toFixed(1)} / 5</span>
+                          </div>
+                          <div className={classes.tagWrapper}>
+                            <span className={classes.tag}>Rating: </span><span> {show.rating}</span>
+                          </div>
+                          <div className={classes.tagWrapper}>
+                            <span className={classes.tag}>Nombre de saisons: </span><span> {show.seasons}</span>
+                          </div>
+                          <div className={classes.tagWrapper}>
+                            <span className={classes.tag}>Nombre total d'épisodes: </span><span>{show.episodes}</span>
+                          </div>
+                          <div className={classes.tagWrapper}>
+                            <span className={classes.tag}>Durée d'un épisode: </span><span> {show.length} min</span>
+                          </div>
+                          <div className={classes.tagWrapper}>
+                            <span className={classes.tag}>Genres: </span><span> {Object.values(show.genres).join(', ')}</span>
+                          </div>
+                        </div>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+
+
+              <Grid item xs={12}>
+                <Card>
+                  <CardContent>
+
+                    <h1 style={{ textAlign: 'center' }}>Episodes</h1>
+                    {episodes.map(episode => {
+                      return episode.episode === 1
+                        ?
+                        (<div key={episode.id}>
+                          <h1 style={{ margin: '40px 0 20px' }}>Saison {episode.season}</h1>
+                          <ListEpisode setEpisode={setEpisode} episode={episode} store={store} inUser={inUser} getAllEpisodes={getAllEpisodes} />
+                        </div>)
+                        :
+                        (<div key={episode.id}>
+                          <ListEpisode setEpisode={setEpisode} episode={episode} store={store} inUser={inUser} getAllEpisodes={getAllEpisodes} />
+                        </div>)
+                    })
+                    }
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
+          </Container>
 
 
-
-            <Grid item xs={12}>
-              <Card>
-                <CardContent>
-
-                  <h1 style={{ textAlign: 'center' }}>Episodes</h1>
-                  {episodes.map(episode => {
-                    return episode.episode === 1
-                      ?
-                      (<div key={episode.id}>
-                        <h1>Saison {episode.season}</h1>
-                        <ListEpisode episode={episode} store={store} inUser={inUser} getAllEpisodes={getAllEpisodes}  />
-                      </div>)
-                      :
-                      (<div key={episode.id}>
-                        <ListEpisode episode={episode} store={store} inUser={inUser} getAllEpisodes={getAllEpisodes}/>
-                      </div>)
-                  })
-                  }
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-
-        </Container>
+          <Dialog
+            open={!!episode}
+            TransitionComponent={Transition}
+            onClose={() => setEpisode(v => !v)}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+            maxWidth="md"
+            fullWidth
+          >
+            <Comments setEpisode={setEpisode} episode={episode} store={store} />
+          </Dialog>
+        </>
       }
     </>
   )
