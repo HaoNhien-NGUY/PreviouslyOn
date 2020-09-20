@@ -247,12 +247,14 @@ export default function ShowDetails() {
                   {episodes.map(episode => {
                     return episode.episode === 1
                       ?
-                      (<>
+                      (<div key={episode.id}>
                         <h1>Saison {episode.season}</h1>
-                        <ListEpisode episode={episode} />
-                      </>)
+                        <ListEpisode episode={episode} store={store} />
+                      </div>)
                       :
-                      (<ListEpisode episode={episode} />)
+                      (<div key={episode.id}>
+                        <ListEpisode episode={episode} store={store} />
+                      </div>)
                   })
                   }
                 </CardContent>

@@ -23,13 +23,13 @@ const useStyles = makeStyles({
     },
 });
 
-export default function OutlinedCard({ episode: { title, date, description } }) {
+export default React.memo(function OutlinedCard({ episode: { title, date, description }, store }) {
     const classes = useStyles();
 
     const localDate = useMemo(() => {
         const myDate = new Date(date);
-        return myDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    }, [date]);
+        return myDate.toLocaleDateString(store.user?.locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }, [date, store]);
 
     return (
         <Card className={classes.root} variant="outlined">
@@ -49,4 +49,4 @@ export default function OutlinedCard({ episode: { title, date, description } }) 
             </CardActions>
         </Card>
     );
-}
+});
